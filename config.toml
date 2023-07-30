@@ -1,6 +1,6 @@
-baseURL = "https://example.com"
+baseURL = "nathom.github.io"
 languageCode = "en-us"
-defaultContentLanguage = "en"
+# defaultContentLanguage = "en"
 title = "Thinkings"
 theme = "hermit"
 # enableGitInfo = true
