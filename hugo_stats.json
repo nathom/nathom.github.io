@@ -3,6 +3,7 @@
     "tags": [
       "a",
       "article",
+      "blockquote",
       "body",
       "button",
       "code",
@@ -29,7 +30,13 @@
       "strong",
       "style",
       "svg",
+      "table",
+      "tbody",
+      "td",
+      "th",
+      "thead",
       "title",
+      "tr",
       "ul"
     ],
     "classes": [
@@ -40,7 +47,6 @@
       "highlight",
       "icon",
       "icon-tabler",
-      "icon-tabler-mail",
       "icon-tabler-menu-2",
       "icon-tabler-moon",
       "icon-tabler-sun",
@@ -58,6 +64,7 @@
       "pagination",
       "post",
       "post-content",
+      "post-content__read-more",
       "post-header",
       "post-heading__anchor",
       "post-meta",
@@ -67,29 +74,32 @@
       "search",
       "search__suggestions--hidden",
       "sidebar",
-      "social-share",
-      "social-share__heading",
-      "social-share__item",
       "theme__toggle"
     ],
     "ids": [
       "awards",
+      "c",
       "certificates",
       "education",
       "examples",
       "experience",
+      "haskell",
       "interests",
       "languages",
       "menu",
+      "performance",
       "prism-dark",
       "prism-light",
       "projects",
       "publications",
+      "python",
       "references",
+      "rust",
       "search__suggestions",
       "search__text",
       "skills",
-      "volunteering"
+      "volunteering",
+      "welcome-to-nathans-blog"
     ]
   }
 }
