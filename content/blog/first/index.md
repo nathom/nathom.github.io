@@ -1,10 +1,15 @@
 ---
-title: "First post"
-date: "2022-04-26T01:16:18+02:00"
-draft: false
-comments: false
-socialShare: true
-toc: false
+title: "First"
+date: 2023-07-28T22:21:54-07:00
+draft: true
 ---
 
-This is the first one
+
+# Welcome to Nathan's blog
+
+I plan on posting random thoughts here. Maybe some tutorials for subjects I find interesting
+
+```python
+def pi_squared_over_6(N: int) -> float:
+    return sum(x**(-2) for x in range(1,N))
+```
