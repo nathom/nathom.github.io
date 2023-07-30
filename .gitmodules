@@ -1,0 +1,6 @@
+[submodule "themes/hermit"]
+	path = themes/hermit
+	url = https://github.com/1bl4z3r/hermit-V2
+[submodule "themes/hugo-theme-gruvbox"]
+	path = themes/hugo-theme-gruvbox
+	url = https://github.com/schnerring/hugo-theme-gruvbox

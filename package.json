@@ -1,0 +1,68 @@
+{
+  "comments": {
+    "dependencies": {
+      "@tabler/icons": "hugo-theme-gruvbox",
+      "flexsearch": "hugo-theme-gruvbox",
+      "normalize.css": "hugo-theme-gruvbox",
+      "prism-themes": "hugo-theme-gruvbox",
+      "prismjs": "hugo-theme-gruvbox",
+      "simple-icons": "github.com/schnerring/hugo-mod-json-resume",
+      "typeface-fira-code": "hugo-theme-gruvbox",
+      "typeface-roboto-slab": "hugo-theme-gruvbox"
+    },
+    "devDependencies": {
+      "@fullhuman/postcss-purgecss": "hugo-theme-gruvbox",
+      "cssnano": "hugo-theme-gruvbox",
+      "eslint": "hugo-theme-gruvbox",
+      "eslint-config-prettier": "hugo-theme-gruvbox",
+      "eslint-plugin-prettier": "hugo-theme-gruvbox",
+      "husky": "github.com/schnerring/hugo-mod-json-resume",
+      "lint-staged": "github.com/schnerring/hugo-mod-json-resume",
+      "markdownlint-cli": "github.com/schnerring/hugo-mod-json-resume",
+      "postcss": "hugo-theme-gruvbox",
+      "postcss-cli": "hugo-theme-gruvbox",
+      "postcss-custom-media": "hugo-theme-gruvbox",
+      "postcss-import": "hugo-theme-gruvbox",
+      "postcss-nesting": "hugo-theme-gruvbox",
+      "postcss-preset-env": "hugo-theme-gruvbox",
+      "postcss-url": "hugo-theme-gruvbox",
+      "prettier": "github.com/schnerring/hugo-mod-json-resume",
+      "prettier-plugin-go-template": "github.com/schnerring/hugo-mod-json-resume",
+      "stylelint": "hugo-theme-gruvbox",
+      "stylelint-prettier": "hugo-theme-gruvbox"
+    }
+  },
+  "dependencies": {
+    "@tabler/icons": "^2.30.0",
+    "flexsearch": "^0.7.31",
+    "normalize.css": "^8.0.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.29.0",
+    "simple-icons": "^9.8.0",
+    "typeface-fira-code": "^1.1.13",
+    "typeface-roboto-slab": "^1.1.13"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "cssnano": "^6.0.1",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "markdownlint-cli": "^0.35.0",
+    "postcss": "^8.4.27",
+    "postcss-cli": "^10.1.0",
+    "postcss-custom-media": "^10.0.0",
+    "postcss-import": "^15.1.0",
+    "postcss-nesting": "^12.0.0",
+    "postcss-preset-env": "^9.1.0",
+    "postcss-url": "^10.1.3",
+    "prettier": "^3.0.0",
+    "prettier-plugin-go-template": "^0.0.15",
+    "stylelint": "^15.10.2",
+    "stylelint-prettier": "^4.0.2"
+  },
+  "name": "nathom.github.io",
+  "version": "0.1.0"
+}
