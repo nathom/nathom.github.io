@@ -471,7 +471,7 @@ to impress your manager by hyper-optimizing your Python*. There's
 almost always a better solution, like
 
 ```python
-import math
+from math import pi
 
 def basel_smart() -> float:
     return pi*pi / 6
