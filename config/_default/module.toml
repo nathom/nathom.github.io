@@ -1,3 +1,0 @@
-[[mounts]]
-  source = "node_modules/katex"
-  target = "assets/katex"
