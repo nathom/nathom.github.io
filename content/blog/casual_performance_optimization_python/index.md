@@ -3,6 +3,7 @@ title: "Not-so-casual Performance Optimization in Python"
 date: 2023-08-01T10:56:08-07:00
 draft: false
 katex: true
+toc: true
 ---
 
 My [previous post](/blog/first/) (which was honestly created to test out the theme
@@ -29,9 +30,9 @@ import time
 # Time the input function
 def time_function(func):
     def wrapper(*args, **kwargs):
-        start_time = time.time()
+        start_time = time.perf_counter()
         result = func(*args, **kwargs)
-        end_time = time.time()
+        end_time = time.perf_counter()
         execution_time = end_time - start_time
         print(f"Function '{func.__name__}' executed in {execution_time:.6f} seconds.")
         return result
@@ -40,8 +41,8 @@ def time_function(func):
 
 ```python
 >>> f = time_function(basel)
->>> f(100000000)
-Function 'basel' executed in 6.979916 seconds.
+>>> f(100000000) # 10^8
+Function 'basel' executed in 6.641589 seconds.
 1.644934057834575
 ```
 
@@ -56,8 +57,8 @@ def basel_less_pythonic(N: int) -> float:
 ```
 
 ```python
->>> f(100000000)
->>> Function 'basel_less_pythonic' executed in 5.978245 seconds.
+>>> f(100000000) # 10^8
+Function 'basel_less_pythonic' executed in 5.908466 seconds.
 1.644934057834575
 ```
 
@@ -184,14 +185,16 @@ def basel_np(N: int) -> float:
     ones = np.ones(N - 1)
     # [1, 2, ..., N]
     r = np.arange(1, N)
-    # [1, 4, ..., N^2]
-    squares = np.square(r)
+    # [1, 1/2, ..., 1/N]
+    div = ones / r
+    # [1, 1/4, ..., 1/N^2]
+    inv_squares = np.square(div)
     # ~ pi^2/6
-    return float(np.sum(ones / squares))
+    return float(np.sum(inv_squares))
 ```
 
 ```python
->>> f(100000000)
+>>> f(100000000) # 10^8
 Function 'basel_np' executed in 0.460317 seconds.
 1.6449340568482196
 ```
@@ -202,37 +205,23 @@ this case won't tell us much, since it'll just consist of a few
 line is taking the largest toll:
 
 ```python
-def basel_np(N: int) -> float:
-    since_start = 0.0 # Cumulative time
-    step_time = time.time() # Timer for each step
+def basel_np(N: int) -> tuple[float, list[float]]:
+    times = []
 
+    # Time a single step
+    start = time.perf_counter()
     ones = np.ones(N - 1)
+    end = time.perf_counter()
+    step_time = end - start
+    times.append(step_time)
 
-    step_time = time.time() - step_time
-    since_start += step_time
-    print("Creating ones", step_time, since_start)
-
+    # Remaining timing code omitted
     r = np.arange(1, N)
-    step_time = time.time() - step_time
-    since_start += step_time
-    print("Creating range", step_time, since_start)
+    div = ones / r
+    square = np.square(div)
+    ret = np.sum(square)
 
-    squares = np.square(r)
-    step_time = time.time() - step_time
-    since_start += step_time
-    print("Squaring range", step_time, since_start)
-
-    div = np.divide(ones, squares)
-    step_time = time.time() - step_time
-    since_start += step_time
-    print("Dividing ones/squares", step_time, since_start)
-
-    ret = float(np.sum(div))
-    step_time = time.time() - step_time
-    since_start += step_time
-    print("Final sum", step_time, since_start)
-
-    return ret
+    return ret, times
 ```
 
 | Operation               | Time for operation  (ms)   | Cumulative Time (ms)  |
@@ -267,10 +256,48 @@ access two large arrays simultaneously, and write the result to a new array.
 This means lots of main memory accesses, and possibly reads from the SSD, which
 is extremely slow.
 
-## A solution
+### Broadcasting
 
-What we could do to improve the memory use of the function
-is work block-by-block, doing the same operations on small chunks
+There's actually an optimization for these kinds of problems that Numpy has
+built-in called [broadcasting](https://numpy.org/doc/stable/user/basics.broadcasting.html),
+which virtually "projects" smaller sized vectors into larger sizes for vector-vector
+operations.
+
+
+
+```python
+def basel_np_broadcast(N) -> float:
+    ones = 1
+    r = np.arange(1, N)
+    div = ones / r
+    square = np.square(div)
+    # As if its [1, 1, ..., 1] / [1, 4, ..., N^2]
+    return float(np.sum(square))
+```
+
+This lets us save a lot of precious cache space. Let's run the same metrics as before.
+With $N=10^8$:
+
+
+| Operation               | Time for operation  (ms)   | Cumulative Time (ms)  |
+| ----------------------- | -------------------------- | --------------------- |
+| Creating ones           | 0.00                       | 0                     |
+| Creating range          | 68.56                      | 70.48                 |
+| Squaring range          | 105.14                     | 180.74                |
+| Dividing ones/squares   | 133.08                     | 271.30                |
+| Final sum               | 71.08                      | 310.41                |
+
+![](./broadcast.svg)
+
+> From now on, I'll refer to the broadcasted version as "the Numpy solution".
+
+Although a significant improvement, we still see those latency spikes.
+Let's try to fix that.
+
+## Thinking About Memory
+
+To improve the memory use of the function, we could
+work block-by-block, doing the same operations on small chunks
 of the range at a time, and adding it all up in the end. This
 would let us only keep one chunk in memory at once, and hopefully
 lead to better cache utilization while still benefiting from 
@@ -281,18 +308,19 @@ Lets modify the function to take a range of $N$s:
 ```python
 # [N1, N2], inclusive
 def basel_np_range(N1: int, N2: int) -> float:
-    # timing code omitted
-    ones = np.ones(N2 - N1 + 1)
+    # Timing code omitted
+    ones = 1
     r = np.arange(N1, N2 + 1)
-    squares = np.square(r)
-    div = ones / squares
-    return float(np.sum(div))
+    div = ones / r
+    squares = np.square(div)
+    return float(np.sum(squares))
 ```
 
 And write a function to sum up all the chunks.
 
 ```python
 def basel_chunks(N: int, chunk_size: int) -> float:
+    # Timing code omitted
     s = 0.0
     num_chunks = N // chunk_size
     for i in range(num_chunks):
@@ -303,21 +331,13 @@ def basel_chunks(N: int, chunk_size: int) -> float:
 With $N=10^8$:
 
 ```
-Function 'basel_chunks' executed in 0.203487 seconds.
-r=1.6449340568482258
+Function 'basel_chunks' executed in 0.108557 seconds.
+1.6449340568482258
 ```
 
-Nice! It runs $\approx 2$ times faster than the original Numpy solution. But if our
-theory about memory accesses is correct, the difference should be far
-greater at larger $N$. Let's try $N=10^9$ with `chunk_size = 20000`.
+Nice! It runs $\approx 3$ times faster than the Numpy solution. 
 
-```
-Function 'basel_chunks' executed in 1.421995 seconds.
-r=1.6449340658482268
-```
-
-Now that's *actually* impressive! It runs almost $40$ times faster
-than the original Numpy code. As a plus, the answer will actually 
+As a plus, the answer will actually 
 be slightly *more accurate*, due to the nature of *IEEE 754* floats.
 Let's look at how the performance scales in the same way we did before,
 keeping the chunk size constant.
@@ -325,7 +345,7 @@ keeping the chunk size constant.
 ![performance for chunks](./perf_chunks.svg)
 
 First of all, look at the y-axis. We're now working on the scale
-of seconds, not minutes. We also see that the runtime for *all* steps
+of seconds, not minutes. We also see that the runtime
 increases linearly, consistent with the algorithm's $O(n)$ time complexity.
 We can theorize that with the `chunk_size` of 20000, all of the information
 is able to be fit in cache, so there are no runtime spikes for out-of-cache
@@ -335,16 +355,16 @@ Let's try varying `chunk_size` in the range $[5 \times 10^2, 10^6]$, keeping $N$
 
 ![](./vary_chunk_size.svg)
 
-From the figure, we see performance gains up until a $\approx 41000$ `chunk_size`,
+From the figure, we see performance gains up until a $\approx 51000$ `chunk_size`,
 after which there are latency spikes presumably caused by cache misses.
 
 ## Some Napkin Math
 
 ![cache hierarchy](./cache_hierarchy.png)
 
-Each `float64`, uses 64 bits, or 8 bytes. We are working with 4 arrays
+Each `float64`, uses 64 bits, or 8 bytes. We are working with 3 arrays
 of $N$ `float64`s, so memory usage for one call is 
-$41000 \times 8 \times 4 = 1312000 \approx 1.3 $ MB.
+$51000 \times 8 \times 3 = 1224000 \approx 1.2 $ MB.
 
 My M1 Pro has the following specs:
 
@@ -356,7 +376,7 @@ My M1 Pro has the following specs:
 | Main        | 16GB                                      |
 
 This suggests the maximum $L1 + L2$
-cache space available to the function is $\approx 1.3$ MB, and if we go over that, we 
+cache space available to the function is $\approx 1.2$ MB, and if we go over that, we 
 have to wait for the $L3$ cache.
 
 ## Multiprocessing
@@ -364,6 +384,21 @@ have to wait for the $L3$ cache.
 Now, let's try making the computer fit more of the array into cache.
 One possibility is to try running the function on all of the cores,
 so that we can use more $L2$ for our function, so let's try that.
+
+First, let's modify `basel_chunks` to take a range of $N$s as input.
+
+```python
+# (N1, N2]
+def basel_chunks_range(N1: int, N2: int, chunk_size: int):
+    # Timing code omitted
+    s = 0.0
+    num_chunks = (N2 - N1) // chunk_size
+    for i in range(num_chunks):
+        s += basel_np_range(N1 + i * chunk_size + 1, N1 + (i + 1) * chunk_size)
+    return s
+```
+
+Now for the actual multiprocessing:
 
 ```python
 from multiprocessing import Pool
@@ -373,20 +408,21 @@ def basel_multicore(N: int, chunk_size: int):
     NUM_CORES = 10 
     N_PER_CORE = N // NUM_CORES
     Ns = [
-        # (N1, N2]
         (i * N_PER_CORE, (i + 1) * N_PER_CORE, chunk_size)
         for i in range(NUM_CORES)
     ]
     # process 10 batches in parallel
     with Pool(NUM_CORES) as p:
-        result = p.starmap(basel_chunks_untimed, Ns)
+        result = p.starmap(basel_chunks_range, Ns)
     return sum(result)
 ```
 
 Under the hood, Python's [multiprocessing](https://docs.python.org/3/library/multiprocessing.html) 
 module [pickles](https://docs.python.org/3/library/pickle.html)
 the function object, and spawns 9 new instances of `python3.10`, all of which
-execute the function with $N=10^9$ and `num_chunks = 40000`.
+execute the function with $N=10^9$ and `num_chunks = 50000`.
+
+Let's compare performance.
 
 ```
 Function 'basel_multicore' executed in 1.156558 seconds.
@@ -418,8 +454,21 @@ chunks 1.6449340668379773
 ```
 
 That's $\approx 8$ times faster! As $N$ increases, the ratio
-of single-core to 10-core should approach 10:1. Through experiment
-(not shown here) I found that a `chunk_size` around 40000 is also
+of single-core to 10-core should approach 10:1. 
+
+
+![](./multicore_v_chunks.svg)
+
+> The x-axis is on a log scale, which is why the linearly increasing runtimes look
+> exponential
+
+We can see that using multiprocessing has a $\approx 1$ second overhead,
+so there's only a performance benefit when the chunked runtime is higher. 
+This happens at $\approx N=1.3 \times 10^9$. After that, however,
+there is a massive difference.
+
+Through experiment
+(not shown here) I found that a `chunk_size` around 50000 is also
 optimal for the multiprocessing code, telling us that the OS
 puts some restriction on L2 use for a single core.
 
@@ -428,27 +477,29 @@ puts some restriction on L2 use for a single core.
 
 | Python function        | $N=10^8$    (s)           | $N=10^9$ (s) | $N=10^{10}$ (s)                 |
 | ---------------------- | ------------------------- | -------      | ------------------------------- |
-| `basel_multicore`      | 1.02                      | 1.423        | 2.35                            |
-| `basel_chunks`         | 0.11                      | 1.13         | 10.25                           |
-| `basel_less_pythonic`  | 6.10                      | 59.25        | 592 (est.)                      |
-| `basel` (idiomatic)    | 6.93                      | 68.28        | 682 (est.)                      |
-| `basel_np`             | 0.383                     | 64.24        | NaN (Ran out of memory)         |
+| `basel_multicore`      | 1.04                      | 1.17         | 2.33                            |
+| `basel_chunks`         | 0.09                      | 0.91         | 9.18                            |
+| `basel_np_broadcast`   | 0.27                      | 9.68         | NaN (Ran out of memory)         |
+| `basel_less_pythonic`  | 5.99                      | 59.25        | 592 (est.)                      |
+| `basel` (idiomatic)    | 7.64                      | 68.28        | 682 (est.)                      |
+| `basel_np`             | 0.618                     | 44.27        | NaN (Ran out of memory)         |
 
 How does it stack up to the languages from the last post?
 
-| Language              | $10^9$ (ms) |
-| ------------------    | ----------  |
-| Rust (multicore)      | 112.65      |
-| Rust (--release)      | 937.94      |
-| C  (-O3)              | 995.38      |
-| `basel_chunks`        | 1130        |
-| `basel_multicore`     | 1423        |
-| Haskell (-O3)         | 13454       |
-| `basel_less_pythonic` | 59250       |
-| `basel` (idiomatic)   | 68280       |
-| `basel_np`            | 64240       |
+| Language              | $N=10^9$ (ms) |
+| ------------------    | ----------    |
+| Rust (multicore)      | 112.65        |
+| `basel_chunks`        | **913**       |
+| Rust (--release)      | 937.94        |
+| C  (-O3)              | 995.38        |
+| `basel_multicore`     | 1170          |
+| `basel_np_broadcast`  | 9680          |
+| Haskell (-O3)         | 13454         |
+| `basel_np`            | 44270         |
+| `basel_less_pythonic` | 59250         |
+| `basel` (idiomatic)   | 68280         |
 
-Quite good! The chunked Numpy code gets quite close to C. And remember,
+Extremely good!  The chunked Numpy code is the fastest sequential solution! And remember,
 Python has a whole interpreter running in the background as it makes 
 calculations.
 
@@ -457,7 +508,7 @@ Comparing Rust to Python multicore:
 | Language   | $N=10^8$ (ms) | $N=10^9$ (ms) | $N=10^{10}$ (ms) | $N=10^{11}$ (ms) |
 | ---------- | ----------    | ----------    | -------------    | -----------      |
 | Rust       | 12.3          | 111.2         | 1083             | 10970            |
-| Python     | 1020          | 1423          | 2350             | 14504            |
+| Python     | 1040          | 1173          | 2330             | 12629            |
 
 Clearly, Rust's method of parallelization (through OS threads) is far more
 efficient for small $N$ than Python's process based parallelism. But the difference
@@ -487,7 +538,15 @@ an otherwise simple problem.
 
 Also, if your application is really that performance critical, you probably 
 shouldn't be writing it in Python. Python was created as a tool that excels 
-in prototyping, not execution speed.
+in prototyping, not execution speed. But as you can see, it isn't *impossible*
+to get awesome performance. 
 
 Anyway, I hope you enjoyed my first real article on this site. If you find
 a faster Python "solution" to this "problem", shoot me an email!
+
+## Update log
+
+| Date         | Description                                      | Thanks to                                                                                              |
+| ------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| 08/02/2023   | Added the broadcasting section, Python becomes fastest solution                   | [u/mcmcmcmcmcmcmcmcmc_](https://tinyurl.com/2s4xs66z) & [u/Allanon001](https://tinyurl.com/3mvch78v)   |
+| 08/02/2023   | Changed `time.time()` to `time.perf_counter()`   | [u/james_pic](https://tinyurl.com/2ezytap3)                                                            |

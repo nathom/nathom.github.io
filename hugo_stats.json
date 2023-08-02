@@ -3,6 +3,7 @@
     "tags": [
       "a",
       "article",
+      "aside",
       "blockquote",
       "body",
       "button",
@@ -12,8 +13,10 @@
       "footer",
       "h1",
       "h2",
+      "h3",
       "head",
       "header",
+      "hr",
       "html",
       "img",
       "input",
@@ -31,6 +34,7 @@
       "script",
       "source",
       "span",
+      "strong",
       "style",
       "svg",
       "table",
@@ -74,11 +78,15 @@
       "search",
       "search__suggestions--hidden",
       "sidebar",
-      "theme__toggle"
+      "sidebar__heading",
+      "theme__toggle",
+      "toc"
     ],
     "ids": [
+      "TableOfContents",
       "a-solution",
       "awards",
+      "broadcasting",
       "c",
       "certificates",
       "conclusion",
@@ -105,6 +113,8 @@
       "some-napkin-math",
       "summary-of-results",
       "the-original-solution",
+      "thinking-about-memory",
+      "update-log",
       "volunteering"
     ]
   }
