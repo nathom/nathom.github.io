@@ -3,6 +3,7 @@
     "dependencies": {
       "@tabler/icons": "hugo-theme-gruvbox",
       "flexsearch": "hugo-theme-gruvbox",
+      "katex": "project",
       "normalize.css": "hugo-theme-gruvbox",
       "prism-themes": "hugo-theme-gruvbox",
       "prismjs": "hugo-theme-gruvbox",
@@ -35,6 +36,7 @@
   "dependencies": {
     "@tabler/icons": "^2.30.0",
     "flexsearch": "^0.7.31",
+    "katex": "^0.16.8",
     "normalize.css": "^8.0.1",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0",
