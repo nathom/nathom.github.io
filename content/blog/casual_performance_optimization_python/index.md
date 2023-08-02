@@ -486,18 +486,18 @@ puts some restriction on L2 use for a single core.
 
 How does it stack up to the languages from the last post?
 
-| Language              | $N=10^9$ (ms) |
-| ------------------    | ----------    |
-| Rust (multicore)      | 112.65        |
-| `basel_chunks`        | **913**       |
-| Rust (--release)      | 937.94        |
-| C  (-O3)              | 995.38        |
-| `basel_multicore`     | 1170          |
-| `basel_np_broadcast`  | 9680          |
-| Haskell (-O3)         | 13454         |
-| `basel_np`            | 44270         |
-| `basel_less_pythonic` | 59250         |
-| `basel` (idiomatic)   | 68280         |
+| Language                                 | $N=10^9$ (ms) |
+| ------------------                       | ----------    |
+| Rust (rc, --release, multicore w/ rayon) | 112.65        |
+| Python3.10 (`basel_chunks`)              | **913**       |
+| Rust (rc, --release)                     | 937.94        |
+| C  (clang, -O3)                          | 995.38        |
+| Python3.10 (`basel_multicore`)           | 1170          |
+| Python3.10 (`basel_np_broadcast`)        | 9680          |
+| Haskell (ghc, -O3)                       | 13454         |
+| Python3.10 (`basel_np`)                  | 44270         |
+| Python3.10 (`basel_less_pythonic`)       | 59250         |
+| Python3.10 (`basel`)                     | 68280         |
 
 Extremely good!  The chunked Numpy code is the fastest sequential solution! And remember,
 Python has a whole interpreter running in the background as it makes 
