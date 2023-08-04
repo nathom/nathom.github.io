@@ -13,7 +13,7 @@ theme = 'hugo-theme-gruvbox'
 
 [imaging]
   # JPEG and WebP image processing quality, defaults to 75%
-  #quality = 75
+  quality = 100
 
 [params]
   # dark or light, defaults to light. Local storage and OS preference override this param. For more details see: 
@@ -45,6 +45,8 @@ theme = 'hugo-theme-gruvbox'
       "diff",
       "toml",
       "armasm",
+      "lua",
+      "applescript",
     ]
     plugins = [
       "normalize-whitespace",
@@ -123,16 +125,16 @@ theme = 'hugo-theme-gruvbox'
     formatString = "mailto:?subject={title}&body={url}"
 
 [menu]
-  [[menu.main]]
-    identifier = "blog"
-    name = "Blog"
-    url = "/blog"
-    weight = 10
-  [[menu.main]]
-    identifier = "cv"
-    name = "CV"
-    url = "/cv"
-    weight = 20
+  # [[menu.main]]
+  #   identifier = "blog"
+  #   name = "Blog"
+  #   url = "/blog"
+  #   weight = 10
+  # [[menu.main]]
+  #   identifier = "cv"
+  #   name = "CV"
+  #   url = "/cv"
+  #   weight = 20
   [[menu.main]]
     identifier = "about"
     name = "About"

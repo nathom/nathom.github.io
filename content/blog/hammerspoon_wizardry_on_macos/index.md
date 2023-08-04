@@ -1,7 +1,8 @@
 ---
-title: "Hammerspoon_wizardry_on_macos"
+title: "Wizardry with Hammerspoon on macOS"
 date: 2023-08-04T10:58:48-07:00
 draft: true
+toc: true
 ---
 
 If you're a nerd, and you've been around Macs for a while, you might remember Applescript. It was a language developed by Apple to allow intermediate–to–advanced users to write simple scripts that could control Mac applications. It was actually created to resemble the English language, so accessing a pixel would be written as
@@ -20,7 +21,7 @@ Needless to say, there's a good reason modern programming languages don't look l
 
 As Applescript was declining, a wise man named [Steven was writing Hammerspoon](https://github.com/Hammerspoon/hammerspoon/commit/9592cbce6ad139871bedfb2822c8b8194555c380), a Lua bridge to the macOS API. Lua, as a simple and modern programming language, was a perfect fit. So, let's see how we can use it.
 
-## Installation
+## Installing Hammerspoon
 
 Use [Homebrew](https://brew.sh).
 
@@ -44,11 +45,11 @@ open -a Hammerspoon
 
 You should see a Lua console like this (don't worry about the text inside).
 
-![[Pasted image 20230804095528.png]]
+![console](./console.png)
 
 Click Preferences, and make sure accessibility is enabled.
 
-![[Pasted image 20230804095704.png]]
+![preferences](./preferences.png)
 
 If you'd like, you can also check `Launch Hammerspoon at Login`.
 
@@ -96,15 +97,13 @@ local function keyMapArray(global_modifiers, mappings)
 			local mappedKeyCode = hs.keycodes.map[splitkey[splitlen]]
 			if mappedKeyCode then
 				hs.hotkey.bind(global_modifiers, k, function()
-					-- logger.d("Key code: " .. tostring(k))
 					hs.eventtap.keyStroke(modifiers, mappedKeyCode, 1)
 				end)
 			else
-				-- The number keycode was nil, which means it doesnt exist
+				-- The number keycode was nil, which means it doesn't exist
 				-- Now we try treating it as a system key event code such as
 				-- PLAY
 				hs.hotkey.bind(global_modifiers, k, function()
-					-- logger.d("System: " .. tostring(k))
 					hs.eventtap.event.newSystemKeyEvent(v, true):post()
 					hs.eventtap.event.newSystemKeyEvent(v, false):post()
 				end)
@@ -123,7 +122,7 @@ end
 
 ```
 
-If you're not familiar with Lua, and feel intimidated, don't worry. The point of this function is to get you started without having to learn Lua. Let's look at how to create a new mapping. Let's say you want Vim arrow key bindings system-wide, activated by `ctrl`. 
+If you're not familiar with Lua and feel intimidated, don't worry. The point of this function is to get you started without having to learn Lua. Let's look at how to create a new mapping. Let's say you want Vim arrow key bindings system-wide, activated by `ctrl`. 
 
 ```lua
 -- Define mappings
@@ -143,13 +142,13 @@ processMaps(maps)
 
 Just put that at the bottom of the file, reload config, and your keys should be mapped!
 
-## How `maps` works
+### How `maps` works
 
 `maps` is an array, or list of tables. Each table has an array of modifier keys as its key, and a table that maps one key to another key as the value. In the above example, the only modifier key is `ctrl` meaning all of the mappings in its table are only activated when `ctrl`  is held down. Then it maps `h` to left arrow, `j` to down arrow, etc.
 
 If you still don't get it, don't worry. Just look at these examples and modify them to fit your needs.
 
-## Examples
+### Examples
 
 Here's some more examples of `maps tables`:
 

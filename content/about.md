@@ -1,3 +1,10 @@
+---
+title: "About this site"
+date: 2023-07-28T22:21:54-07:00
+draft: false
+katex: true
+---
+
 Welcome to my personal blog. I plan on posting whatever I feel like
 posting. Currently, this would look like:
 
