@@ -84,12 +84,17 @@
     ],
     "ids": [
       "TableOfContents",
+      "binding-system-wide-hotkeys",
       "broadcasting",
       "c",
       "conclusion",
+      "examples",
       "fixing-python",
       "haskell",
+      "how-maps-works",
+      "installing-hammerspoon",
       "lets-use-numpy",
+      "making-sure-initlua-is-working",
       "menu",
       "multiprocessing",
       "performance",
@@ -99,11 +104,13 @@
       "rust",
       "search__suggestions",
       "search__text",
+      "setup",
       "some-napkin-math",
       "summary-of-results",
       "the-original-solution",
       "thinking-about-memory",
-      "update-log"
+      "update-log",
+      "useful-links"
     ]
   }
 }

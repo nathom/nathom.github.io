@@ -1,7 +1,7 @@
 ---
 title: "Wizardry with Hammerspoon on macOS"
 date: 2023-08-04T10:58:48-07:00
-draft: true
+draft: false
 toc: true
 ---
 
