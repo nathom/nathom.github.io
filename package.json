@@ -3,11 +3,9 @@
     "dependencies": {
       "@tabler/icons": "hugo-theme-gruvbox",
       "flexsearch": "hugo-theme-gruvbox",
-      "katex": "project",
       "normalize.css": "hugo-theme-gruvbox",
       "prism-themes": "hugo-theme-gruvbox",
       "prismjs": "hugo-theme-gruvbox",
-      "simple-icons": "github.com/schnerring/hugo-mod-json-resume",
       "typeface-fira-code": "hugo-theme-gruvbox",
       "typeface-roboto-slab": "hugo-theme-gruvbox"
     },
@@ -17,9 +15,9 @@
       "eslint": "hugo-theme-gruvbox",
       "eslint-config-prettier": "hugo-theme-gruvbox",
       "eslint-plugin-prettier": "hugo-theme-gruvbox",
-      "husky": "github.com/schnerring/hugo-mod-json-resume",
-      "lint-staged": "github.com/schnerring/hugo-mod-json-resume",
-      "markdownlint-cli": "github.com/schnerring/hugo-mod-json-resume",
+      "husky": "hugo-theme-gruvbox",
+      "lint-staged": "hugo-theme-gruvbox",
+      "markdownlint-cli": "hugo-theme-gruvbox",
       "postcss": "hugo-theme-gruvbox",
       "postcss-cli": "hugo-theme-gruvbox",
       "postcss-custom-media": "hugo-theme-gruvbox",
@@ -27,8 +25,8 @@
       "postcss-nesting": "hugo-theme-gruvbox",
       "postcss-preset-env": "hugo-theme-gruvbox",
       "postcss-url": "hugo-theme-gruvbox",
-      "prettier": "github.com/schnerring/hugo-mod-json-resume",
-      "prettier-plugin-go-template": "github.com/schnerring/hugo-mod-json-resume",
+      "prettier": "hugo-theme-gruvbox",
+      "prettier-plugin-go-template": "hugo-theme-gruvbox",
       "stylelint": "hugo-theme-gruvbox",
       "stylelint-prettier": "hugo-theme-gruvbox"
     }
@@ -36,11 +34,9 @@
   "dependencies": {
     "@tabler/icons": "^2.30.0",
     "flexsearch": "^0.7.31",
-    "katex": "^0.16.8",
     "normalize.css": "^8.0.1",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0",
-    "simple-icons": "^9.8.0",
     "typeface-fira-code": "^1.1.13",
     "typeface-roboto-slab": "^1.1.13"
   },
