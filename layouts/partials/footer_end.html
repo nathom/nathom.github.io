@@ -1,4 +1,4 @@
-{{ if .Site.Params.comments }}
+{{ if and .Site.Params.comments .IsPage }}
 <script src="https://giscus.app/client.js"
         data-repo="{{.Site.Params.Giscus.repo}}"
         data-repo-id="{{.Site.Params.Giscus.repo_id}}"
