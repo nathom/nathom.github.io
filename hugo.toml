@@ -1,4 +1,5 @@
-baseURL = 'nathom.github.io'
+baseURL = "www.nathom.dev"
+relativeURLs = true
 languageCode = 'en-us'
 title = 'Thinkings'
 theme = 'hugo-theme-gruvbox'
