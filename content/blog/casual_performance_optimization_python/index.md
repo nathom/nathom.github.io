@@ -364,7 +364,7 @@ after which there are latency spikes presumably caused by cache misses.
 
 Each `float64`, uses 64 bits, or 8 bytes. We are working with 3 arrays
 of $N$ `float64`s, so memory usage for one call is 
-$51000 \times 8 \times 3 = 1224000 \approx 1.2 $ MB.
+$51000 (8)  (3) = 1224000 \approx 1.2$ MB.
 
 My M1 Pro has the following specs:
 
