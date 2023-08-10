@@ -10,7 +10,8 @@ def main():
     # plot_vary_chunks()
     # plot_multicore_cumulative()
     # plot_multicore_vs_chunks_total()
-    run_all_timed()
+    # run_all_timed()
+    create_cumulative_plot(None, None, None, None)
 
 
 def run_all_timed():
@@ -144,11 +145,11 @@ def into_cumulative(t):
 
 
 def create_cumulative_plot(Ns, times: list[list[float]], title, xlabel, log=False):
-    plt.plot(Ns, slice(times, 0), label="Allocate ones")
-    plt.plot(Ns, slice(times, 1), label="Allocate range")
-    plt.plot(Ns, slice(times, 2), label="Square range")
-    plt.plot(Ns, slice(times, 3), label="Divide ones by squares")
-    plt.plot(Ns, slice(times, 4), label="Final sum")
+    # plt.plot(Ns, slice(times, 0), label="Allocate ones")
+    # plt.plot(Ns, slice(times, 1), label="Allocate range")
+    # plt.plot(Ns, slice(times, 2), label="Square range")
+    # plt.plot(Ns, slice(times, 3), label="Divide ones by squares")
+    # plt.plot(Ns, slice(times, 4), label="Final sum")
     title = plt.title(title)
     title.set_color("white")
     plt.xlabel(xlabel)
@@ -174,7 +175,8 @@ def create_cumulative_plot(Ns, times: list[list[float]], title, xlabel, log=Fals
     ax.xaxis.label.set_color("white")
     ax.yaxis.label.set_color("white")
 
-    plt.savefig("perf.svg", format="svg", transparent=True)
+    # plt.savefig("perf.svg", format="svg", transparent=True)
+    plt.savefig("settings.json")
     plt.show()
 
 

@@ -17,7 +17,16 @@ theme = 'hugo-theme-gruvbox'
   quality = 100
 
 [params]
+  defaultTheme = "dark"
+  # gray red green yellow blue purple aqua orange, defaults to blue
+  themeColor = "blue"
+  # soft medium hard, defaults to medium
+  themeContrast = "medium"
+  author = "Nathan Thomas"
+  subtitle = "A blog"
+  description = "A free space"
   comments = true
+
   [params.Giscus]
     repo              = "nathom/thinkings_comments"
     repo_id           = "R_kgDOKDmHRQ"
@@ -28,15 +37,6 @@ theme = 'hugo-theme-gruvbox'
     theme             = "noborder_dark"
 
 
-
-  defaultTheme = "dark"
-  # gray red green yellow blue purple aqua orange, defaults to blue
-  themeColor = "blue"
-  # soft medium hard, defaults to medium
-  themeContrast = "medium"
-  author = "Nathan Thomas"
-  subtitle = "A blog"
-  description = "A free space"
 
   [params.logo]
     text = "thinkings"
