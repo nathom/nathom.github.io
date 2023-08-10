@@ -97,7 +97,7 @@ double loss(double y_hat, double y) {
 But we want to minimize the loss across *all* of the data samples we have. So, let's take the average loss over all $m$ samples, and call it the total *error function*, $J_{wb}$. 
 
 $$
-J_{wb}(\vec{x}) =  \frac{1}{m} \sum_{i=0}^{m-1} (\hat{y}^{(i)} - y^{(i)})^2
+J(w, b) =  \frac{1}{m} \sum_{i=0}^{m-1} (\hat{y}^{(i)} - y^{(i)})^2
 $$
 
 ```c
@@ -188,7 +188,7 @@ As long as the valley exists, this will get you to the bottom. Plot twist: the h
 First we need to see the effect changing $b$ a tiny bit has on the error. This is the derivative of the error function with respect to $b$. Solving
 
 $$
-J_{wb}(\vec{x}) =  \frac{1}{m} \sum_{i=0}^{m-1} (\hat{y}^{(i)} - y^{(i)})^2 \\
+J(w, b) =  \frac{1}{m} \sum_{i=0}^{m-1} (\hat{y}^{(i)} - y^{(i)})^2 \\
 = \frac{1}{m} \sum_{i=0}^{m-1} (wx^{(i)}+b - y^{(i)})^2
 $$
 $$
