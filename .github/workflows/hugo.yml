@@ -48,8 +48,8 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
-      #- name: Hugo mod get
-      # run: "hugo mod get && hugo mod npm pack"
+      - name: Hugo mod get
+        run: "hugo mod get && hugo mod npm pack"
       - name: Install Node.js dependencies
         run: "npm ci"
       - name: Build with Hugo
