@@ -1,15 +1,92 @@
 {
   "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
-  "basics": {},
-  "work": [],
+  "basics": {
+    "name": "Nathaniel Thomas",
+    "label": "",
+    "image": "",
+    "email": "nathomas@ucsd.edu",
+    "phone": "",
+    "summary": "A curious Computer Engineering student interested in HPC, Machine Learning and developer productivity.",
+    "location": {
+      "city": "La Jolla"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "url": "https://github.com/nathom"
+      },
+      {
+        "network": "Linkedin",
+        "url": "https://www.linkedin.com/in/nathaniel-thomas-964806137/"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Yahoo!",
+      "location": "Mountain View, CA",
+      "description": "",
+      "position": "Software Engineering Intern",
+      "url": "",
+      "startDate": "2023-07-20",
+      "endDate": "2023-09-08",
+      "summary": "Worked on the Platform Engineering team to build and improve developer tools.",
+      "highlights": [
+        "Created a Slack bot that indexes internal documentation and detects in-channel questions using NLP",
+        "Made improvements to usage metrics within the internal CI/CD tool"
+      ]
+    }
+  ],
   "volunteer": [],
-  "education": [],
-  "awards": [],
-  "certificates": [],
+  "education": [
+    {
+      "institution": "University of California, San Diego",
+      "area": "Computer Engineering",
+      "studyType": "B.S.",
+      "startDate": "2021-09",
+      "endDate": "2024-06"
+    }
+  ],
+  "awards": [
+    {
+      "title": "National Merit Finalist",
+      "date": "2021-05"
+    }
+  ],
   "publications": [],
-  "skills": [],
-  "languages": [],
-  "interests": [],
+  "skills": [
+    {
+      "name": "Web Development",
+      "level": "Master",
+      "keywords": ["HTML", "CSS", "Javascript"]
+    },
+    {
+      "name": "Compression",
+      "level": "Master",
+      "keywords": ["Mpeg", "MP4", "GIF"]
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "fluency": "Native speaker"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Neo(Vim)"
+    },
+    {
+      "name": "Weightlifting",
+      "keywords": ["gym", "Unicorns"]
+    },
+    {
+      "name": "Specialty Coffee"
+    },
+    {
+      "name": "Nutrition Sciences"
+    }
+  ],
   "references": [],
   "projects": [],
   "meta": {
