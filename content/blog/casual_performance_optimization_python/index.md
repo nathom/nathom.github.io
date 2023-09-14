@@ -360,7 +360,7 @@ after which there are latency spikes presumably caused by cache misses.
 
 ## Some Napkin Math
 
-![cache hierarchy](./cache_hierarchy.png)
+![cache hierarchy](m1_pro_cache_diagram.svg)
 
 Each `float64`, uses 64 bits, or 8 bytes. We are working with 3 arrays
 of $N$ `float64`s, so memory usage for one call is 
