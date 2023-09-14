@@ -3,6 +3,7 @@ title: "Wizardry with Hammerspoon on macOS"
 date: 2023-08-04T10:58:48-07:00
 draft: false
 toc: true
+comments: true
 ---
 
 If you're a nerd, and you've been around Macs for a while, you might remember Applescript. It was a language developed by Apple to allow intermediate–to–advanced users to write simple scripts that could control Mac applications. It was actually created to resemble the English language, so accessing a pixel would be written as
