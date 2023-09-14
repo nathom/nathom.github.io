@@ -119,14 +119,15 @@ This looks at the current note for markdown such as
 
 And displays a calendar on the sidebar like so
 
-![](day_planner_cal.png)
+<!-- ![](day_planner_cal.png) -->
+<img src="day_planner_cal.png" alt="drawing" width="200"/>
 
 
 ### My Daily Note Template
 
 
 
-```markdown
+~~~markdown
 
 # Good Morning
 
@@ -178,11 +179,11 @@ Run a query over all tasks where its deadline/scheduled
 date passed.
 -->
 
-\`\`\`dataview
+```dataview
 TASK WHERE
 !completed AND ((due AND due < date("Obsidian as a programmable daily planner copy")) OR (scheduled AND scheduled < date("Obsidian as a programmable daily planner copy")))
 SORT min(due, scheduled) ASC
-\`\`\`
+```
 
 ## Today
 
@@ -191,10 +192,10 @@ Run a query over all tasks where its deadline/scheduled
 date is today.
 -->
 
-\`\`\`dataview
+```dataview
 TASK
 WHERE scheduled = date("Obsidian as a programmable daily planner copy") OR due = date("Obsidian as a programmable daily planner copy")
-\`\`\`
+```
 
 ## Next 10 days
 
@@ -203,7 +204,7 @@ Run a query over all tasks where its deadline/scheduled
 date is in the next 10 days.
 -->
 
-\`\`\`dataviewjs
+```dataviewjs
 dv.taskList(
   dv.pages().file.tasks.where((t) => {
     // tasks where !completed
@@ -228,7 +229,7 @@ dv.taskList(
     return dayDiff <= N;
   }),
 );
-\`\`\`
+```
 # Planner
 
 
@@ -260,12 +261,12 @@ where modified today. This lets me go back to the
 notes I was working on easily.
 -->
 
-\`\`\`dataview
+```dataview
 TABLE file.mtime as "Modified", file.ctime as "Created"
 WHERE file.mtime > date("Obsidian as a programmable daily planner copy") AND file.mtime < date("Invalid date") AND file.day != date("Obsidian as a programmable daily planner copy")
 SORT file.mtime DESC
-\`\`\`
 ```
+~~~
 
 ### Gallery
 
@@ -309,7 +310,7 @@ What I get:
 
 I use this setting to get the `::`
 
-![[Pasted image 20230914121718.png]]
+![](nl_dates_config.png)
 
 #### Obsidian Git
 

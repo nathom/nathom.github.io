@@ -26,9 +26,7 @@ Hopefully, it will turn into something interesting as time passes.
 # The Author
 
 
-![](./IMG_9420.png)
-
-> Me on top of Mount Pilatus, Switzerland
+![](./IMG_9420.png "Me on top of Mount Pilatus, Switzerland")
 
 I'm a CS nerd who loves all things programming and math. I got started
 in open source, where I created [streamrip](https://github.com/nathom/streamrip),
