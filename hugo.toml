@@ -3,7 +3,7 @@ relativeURLs = true
 languageCode = 'en-us'
 title = 'Thinkings'
 theme = 'hugo-theme-gruvbox'
-timeout = "60s"
+timeout = "180s"
 
 [markup]
   [markup.goldmark]
