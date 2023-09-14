@@ -25,9 +25,9 @@
     {
       "name": "Yahoo!",
       "location": "Mountain View, CA",
-      "description": "",
+      "description": "Yahoo Developer Network & CI/CD",
       "position": "Software Engineering Intern",
-      "url": "",
+      "url": "https://www.yahoo.com",
       "startDate": "2023-07-20",
       "endDate": "2023-09-08",
       "summary": "Worked on the Platform Engineering team to build and improve developer tools.",
@@ -39,6 +39,13 @@
   ],
   "volunteer": [],
   "education": [
+    {
+      "institution": "University of California, San Diego",
+      "area": "Computer Engineering, Machine Learning",
+      "studyType": "M.S.",
+      "startDate": "2023-09",
+      "endDate": "2025-06"
+    },
     {
       "institution": "University of California, San Diego",
       "area": "Computer Engineering",
