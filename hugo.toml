@@ -26,6 +26,7 @@ theme = 'hugo-theme-gruvbox'
   subtitle = "A blog"
   description = "A free space"
   comments = true
+  copyright = "© 2023 Nathaniel Thomas"
 
   [params.Giscus]
     repo              = "nathom/thinkings_comments"
@@ -70,10 +71,10 @@ theme = 'hugo-theme-gruvbox'
   
   # By default, the theme creates resized versions of images ranging from 300 to
   # 700 pixels wide in increments of 200 pixels
-  #[params.imageResize]
-  #  min = 300
-  #  max = 700
-  #  increment = 200
+  [params.imageResize]
+   min = 300
+   max = 1000
+   increment = 200
   
   [params.tagCloud]
     enable         = false
