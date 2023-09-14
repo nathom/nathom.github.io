@@ -59,6 +59,7 @@ theme = 'hugo-theme-gruvbox'
       "armasm",
       "lua",
       "applescript",
+      "markdown"
     ]
     plugins = [
       "normalize-whitespace",
@@ -73,8 +74,8 @@ theme = 'hugo-theme-gruvbox'
   # 700 pixels wide in increments of 200 pixels
   [params.imageResize]
    min = 300
-   max = 1000
-   increment = 200
+   max = 1500
+   increment = 100
   
   [params.tagCloud]
     enable         = false

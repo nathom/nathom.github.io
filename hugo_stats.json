@@ -10,6 +10,8 @@
       "code",
       "div",
       "em",
+      "figcaption",
+      "figure",
       "footer",
       "h1",
       "h2",
