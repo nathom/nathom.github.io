@@ -127,25 +127,12 @@ And displays a calendar on the sidebar like so
 
 
 ~~~markdown
-
 # Good Morning
-
-<!--- 
-I have a todo list of things I do everyday to wake
-up feeling accomplished
--->
 
 - [ ] Make your bed, lobster
 - [ ] Do 20 push ups
 - [ ] Make a coffee
-
-
-
 # Goals for today
-
-<!---
-Using the 3-3-3 Method, which works well for me
--->
 
 ### Focus of the day
 
@@ -165,43 +152,29 @@ Using the 3-3-3 Method, which works well for me
 
 # Tasks
 
-<!---
-Code that stores today and tomorrow in  YYYY-MM-DD
-format for the queries below.
--->
-
+<%*
+const today = `"${tp.file.title}"`;
+const _tomorrow = moment(tp.file.title).add(1, 'days').format("YYYY-MM-DD")
+const tomorrow = `"${_tomorrow}"`;
+-%>
 
 ## Overdue
 
-<!---
-Run a query over all tasks where its deadline/scheduled
-date passed.
--->
-
 ```dataview
 TASK WHERE
-!completed AND ((due AND due < date("Obsidian as a programmable daily planner copy")) OR (scheduled AND scheduled < date("Obsidian as a programmable daily planner copy")))
+!completed AND ((due AND due < date(<%today%>)) OR (scheduled AND scheduled < date(<%today%>)))
 SORT min(due, scheduled) ASC
 ```
 
 ## Today
 
-<!---
-Run a query over all tasks where its deadline/scheduled
-date is today.
--->
-
 ```dataview
 TASK
-WHERE scheduled = date("Obsidian as a programmable daily planner copy") OR due = date("Obsidian as a programmable daily planner copy")
+WHERE scheduled = date("<%tp.file.title%>") OR due = date("<%tp.file.title%>")
 ```
 
 ## Next 10 days
 
-<!---
-Run a query over all tasks where its deadline/scheduled
-date is in the next 10 days.
--->
 
 ```dataviewjs
 dv.taskList(
@@ -223,7 +196,7 @@ dv.taskList(
       relDate = t.due < t.scheduled ? t.due : t.scheduled;
     }
 
-    const diff = relDate - (new Date("Obsidian as a programmable daily planner copy"));
+    const diff = relDate - (new Date(<%today%>));
     const dayDiff = diff / (1000 * 60 * 60 * 24);
     return dayDiff <= N;
   }),
@@ -231,11 +204,14 @@ dv.taskList(
 ```
 # Planner
 
-
-<!---
-Times for day planner so that I don't have to type them
-every day.
---->
+<%*
+if (tp.date.now("YYYY-MM-DD") == tp.file.title) {
+	try {
+		app.commands.commands["obsidian-day-planner:app:unlink-day-planner-from-note"].callback();
+	} catch (e) {}
+	app.commands.commands["obsidian-day-planner:app:link-day-planner-to-note"].callback();
+}
+-%>
 
 - [ ] 08:00
 - [ ] 09:00
@@ -254,15 +230,9 @@ every day.
 
 ## Notes from today
 
-<!---
-A query over all files that selects which notes
-where modified today. This lets me go back to the
-notes I was working on easily.
--->
-
 ```dataview
 TABLE file.mtime as "Modified", file.ctime as "Created"
-WHERE file.mtime > date("Obsidian as a programmable daily planner copy") AND file.mtime < date("Invalid date") AND file.day != date("Obsidian as a programmable daily planner copy")
+WHERE file.mtime > date(<%today%>) AND file.mtime < date(<%tomorrow%>) AND file.day != date(<%today%>)
 SORT file.mtime DESC
 ```
 ~~~
