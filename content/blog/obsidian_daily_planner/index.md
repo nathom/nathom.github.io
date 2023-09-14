@@ -1,7 +1,7 @@
 ---
 title: "Yet Another \"I Switched to Obsidian\" Post"
 date: 2023-09-14
-draft: true
+draft: false
 toc: true
 comments: true
 ---
