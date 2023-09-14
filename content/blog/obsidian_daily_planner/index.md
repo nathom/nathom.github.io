@@ -9,7 +9,7 @@ comments: true
 
 One of the most striking elements of Silicon Valley to outsiders is *productivity culture*. Whereas most people in most places live in complete satisfaction doing their job as they would, SV people won't find peace without optimizing their every habit and system to extract that extra iota of productivity per unit time. I am one of those people, and this article is about how I revolutionized my productivity switching from Neovim orgmode to Obsidian.
 
-I will try to motivate my switch though so that I don't sound totally crazy. If you want to get straight to my setup, click [here](#Obsidian).
+I will try to motivate my switch though so that I don't sound totally crazy. If you want to get straight to my setup, click [here](./#obsidian).
 
 ## Org-mode, but in Neovim
 
@@ -65,7 +65,7 @@ Here's an overview of my current configuration, after 1 month of deliberate usag
 
 ### Theme
 
-I'm using the [Minimal] theme, which comes with multiple color schemes you can choose from the [Minimal Theme Settings] plugin.
+I'm using the Minimal theme, which comes with multiple color schemes you can choose from the Minimal Theme Settings plugin.
 
 I'm using the Gruvbox color scheme.
 
@@ -119,7 +119,6 @@ This looks at the current note for markdown such as
 
 And displays a calendar on the sidebar like so
 
-<!-- ![](day_planner_cal.png) -->
 <img src="day_planner_cal.png" alt="drawing" width="200"/>
 
 
