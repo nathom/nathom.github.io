@@ -4,6 +4,7 @@ date: 2023-08-01T10:56:08-07:00
 draft: false
 katex: true
 toc: true
+comments: true
 ---
 
 My [previous post](/blog/first/) (which was honestly created to test out the theme
