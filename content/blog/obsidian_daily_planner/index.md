@@ -7,7 +7,7 @@ comments: true
 ---
 
 
-One of the most striking elements of Silicon Valley to outsiders is *productivity culture*. Whereas most people in most places live in complete satisfaction doing their job as they would, SV people won't find peace without optimizing their every habit and system to extract that extra iota of productivity per unit time. I am one of those people, and this article is about how I revolutionized my productivity switching from Neovim orgmode to Obsidian.
+One of the most striking elements of Silicon Valley to outsiders is *productivity culture*. Whereas most people in most places live in complete satisfaction doing their job as they would, Silicon Valley people won't find peace without optimizing their every habit and system to extract that extra iota of productivity per unit time. I am one of those people, and this article is about how I revolutionized my productivity switching from Neovim org-mode to Obsidian.
 
 I will try to motivate my switch though so that I don't sound totally crazy. If you want to get straight to my setup, click [here](./#obsidian).
 
@@ -51,7 +51,7 @@ On top of this, I used the beorg app on my iPhone, which pulled its data from th
 
 ### Problems with never leaving Vim
 
-The fundamental reason I chose to leave org-mode was simply because `org` is a crappy file format compared to markdown, at least for prose. It's symbol-laden syntax simply cannot match the simplicity and readability of markdown. It also doesn't have the same tooling support as markdown, which is ubiquitous across the internet. So, I found myself not using `org`  files for notes at all, leaving the **notes and tasks in one place** proposition nulled. 
+The fundamental reason I chose to leave org-mode was simply because `org` is a crappy file format compared to markdown, at least for prose. It's symbol-laden syntax simply cannot match the simplicity and readability of markdown. It also doesn't have the same tooling support as markdown, which is ubiquitous across the internet. So, I found myself not using `org`  files for notes at all, leaving the **notes and tasks in one place** proposition void. 
 
 Then, I had to deck out my vim config with tools that would make markdown editing friendlier. `vim-pencil` auto wrapped lines to give Vim the Google Docs feel. Then, I wrote `pandoc.nvim` to automatically render markdown files to PDF on write.  I also had to write `imagepaste.nvim`  so that I could `cmd-V` images into markdown files. Finally, I had a working setup. However, vim-pencil was buggy, and having a PDF viewer open just to view markdown was annoying.
 
@@ -124,15 +124,25 @@ And displays a calendar on the sidebar like so
 
 ### My Daily Note Template
 
+I have added comments in `<!--- -->` form that explain each section.
 
 
 ~~~markdown
 # Good Morning
 
+<!--- 
+I have a todo list of things I do everyday to wake
+up feeling accomplished
+-->
+
 - [ ] Make your bed, lobster
 - [ ] Do 20 push ups
 - [ ] Make a coffee
 # Goals for today
+
+<!---
+Using the 3-3-3 Method, which works well for me
+-->
 
 ### Focus of the day
 
@@ -152,6 +162,11 @@ And displays a calendar on the sidebar like so
 
 # Tasks
 
+<!---
+Code that stores today and tomorrow in YYYY-MM-DD
+format for the queries below.
+-->
+
 <%*
 const today = `"${tp.file.title}"`;
 const _tomorrow = moment(tp.file.title).add(1, 'days').format("YYYY-MM-DD")
@@ -159,6 +174,11 @@ const tomorrow = `"${_tomorrow}"`;
 -%>
 
 ## Overdue
+
+<!---
+Run a query over all tasks where its deadline/scheduled
+date passed.
+-->
 
 ```dataview
 TASK WHERE
@@ -168,12 +188,22 @@ SORT min(due, scheduled) ASC
 
 ## Today
 
+<!---
+Run a query over all tasks where its deadline/scheduled
+date is today.
+-->
+
 ```dataview
 TASK
 WHERE scheduled = date("<%tp.file.title%>") OR due = date("<%tp.file.title%>")
 ```
 
 ## Next 10 days
+
+<!---
+Run a query over all tasks where its deadline/scheduled
+date is in the next 10 days.
+-->
 
 
 ```dataviewjs
@@ -204,6 +234,13 @@ dv.taskList(
 ```
 # Planner
 
+<!---
+Set the current note to the one read by Day Planner IF the
+note's date matches today's date. 
+
+WARNING: Using an unofficial API so this might break later.
+--->
+
 <%*
 if (tp.date.now("YYYY-MM-DD") == tp.file.title) {
 	try {
@@ -212,6 +249,11 @@ if (tp.date.now("YYYY-MM-DD") == tp.file.title) {
 	app.commands.commands["obsidian-day-planner:app:link-day-planner-to-note"].callback();
 }
 -%>
+
+<!---
+Times for day planner so that I don't have to type them
+every day.
+--->
 
 - [ ] 08:00
 - [ ] 09:00
@@ -229,6 +271,12 @@ if (tp.date.now("YYYY-MM-DD") == tp.file.title) {
 - [ ] 21:00
 
 ## Notes from today
+
+<!---
+A query over all files that selects which notes
+where modified today. This lets me go back to the
+notes I was working on easily.
+-->
 
 ```dataview
 TABLE file.mtime as "Modified", file.ctime as "Created"
@@ -249,7 +297,7 @@ SORT file.mtime DESC
 
 #### Excalidraw
 
-If you're not familar with this drawing tool, you should be. It's a great way to make diagrams and sketches. As a bonus, it has full integration into obsidian through the Excalidraw plugin!
+If you're not familiar with this drawing tool, you should be. It's a great way to make diagrams and sketches. As a bonus, it has full integration into obsidian through the Excalidraw plugin!
 
 Note: you need another plugin called `Ozan's Image in Editor Plugin` to view the drawings in other notes.
 
@@ -283,7 +331,7 @@ I use this setting to get the `::`
 
 #### Obsidian Git
 
-This automatically backs up my vault to a Git repository. Replicating the behavior of my orgmode setup, but better!
+This automatically backs up my vault to a Git repository. Replicating the behavior of my org-mode setup, but better!
 
 #### Vimrc Support
 
