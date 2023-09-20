@@ -85,7 +85,7 @@ The trendlines tell us the approximate relationship between each feature and the
 $$
 \begin{aligned}
 \hat{y} &= 0.34 x_1 + 550 + 3.3 x_2 + 1771 + 5.84x_3 + 1459 - 8.07 x_4 + 2758 \\\
- &= 0.34 x_1 + 3.3 x_2  + 5.84x_3  - 8.07 x^4  + 6538
+ &= 0.34 x_1 + 3.3 x_2  + 5.84x_3  - 8.07 x\_4  + 6538
 \end{aligned}
 $$
 
@@ -95,7 +95,7 @@ Intuitively, what does this mean? We have a base value (bias) of $6.5M, which re
 $$
 \begin{align*}
 \hat{y} &= 0.34 x_1  + 3.3 x_2  + 5.84x_3  - 8.07 x_4  + (550 + 1771 + 1459 + 2758)/4 \\\\
- &= 0.34 x_1 + 3.3 x_2  + 5.84x_3  - 8.07 x^4  + 1634.5 \\\\
+ &= 0.34 x_1 + 3.3 x_2  + 5.84x_3  - 8.07 x_4  + 1634.5 \\\\
 \end{align*}
 $$
 
@@ -154,6 +154,7 @@ You will see soon how this is helpful. Let's define our `matrix` struct.
 ```c
 // matrix.h
 
+// Just so we can swap out `double` for any float later
 typedef double mfloat;
 
 typedef struct {
@@ -167,7 +168,7 @@ typedef struct {
 Now, the model looks like
 
 ```c
-// mlr.c
+// main.c
 struct mlinear_model {
 	matrix w;
 	mfloat b;
@@ -296,7 +297,7 @@ static matrix Y = {
 
 ```
 
-OK, no more messing around. It's time to mathematically optimize this thing.
+Now, it's optimization time!
 
 This means we need to find the model with parameters $W$ and $b$ such that the error across all data samples is minimized. But what is our error? We can actually use the same definition from part 1, since we are still comparing two numbers $\hat{y}^{(i)}$ and $y^{(i)}$.
 
@@ -691,7 +692,7 @@ W=[ 8.3053e+00 ]
  b=227.136534
 ```
 
-Uh-oh, it's even slower! But watch what happens when we change $\alpha = 10^{-8}$ to $\alpha = 1$
+It's even slower!? But wait—watch what happens when we change $\alpha = 10^{-8}$ to $\alpha = 1,$ which would have caused our old model to diverge.
 
 
 ```
@@ -722,7 +723,7 @@ W=[ 8.1088e+03 ]
  b=2364.131545
 ```
 
-Wow! Within the first log, it converged to the minimum value! In fact, with $\alpha=1$, we only need around $3 \times 10^4$ iterations for convergence instead of $10^7$! So we can see that using feature normalizing can speed up gradient descent by orders of magnitude, especially when the features have varying spreads. 
+Wow! Within the first log, it converged to the minimum value! In fact, with $\alpha=1$, we only need around $3 \times 10^4$ iterations for convergence instead of $10^7$! So we can see that using z-score normalization can speed up gradient descent by orders of magnitude, especially when the features have varying spreads. 
 
 If you noticed that the new $W$ and $b$ are way off from the original ones,
 that's because we fundamentally changed the input data. We are now modeling
