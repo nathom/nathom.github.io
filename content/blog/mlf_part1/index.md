@@ -277,3 +277,5 @@ This—gradient descent—is *the fundamental algorithm* that allows machines to
 So as you can see, gradient descent makes pretty good sense, at least when we have such a simple model. For the next part, things will get a bit more complicated, but still hopefully manageable. We'll be looking at *multivariate linear regression*, where you have more than 1 variable affecting the output value i.e. Number of bedrooms, Lot size, distance from city etc.
 
 If anything in the article wasn't clear, please comment below and I'll try my best to clarify. If you have any suggestions, let me know! Thanks for reading.
+
+**[Go to Part 2](/blog/mlf_part2)**
