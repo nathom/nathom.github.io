@@ -153,9 +153,12 @@ You will see soon how this is helpful. Let's define our `matrix` struct.
 
 ```c
 // matrix.h
+
+typedef double mfloat;
+
 typedef struct {
 	// row major
-	double *buf;
+	mfloat *buf;
 	int rows;
 	int cols; 
 } matrix;
@@ -167,7 +170,7 @@ Now, the model looks like
 // mlr.c
 struct mlinear_model {
 	matrix w;
-	double b;
+	mfloat b;
 };
 ```
 
@@ -179,14 +182,14 @@ Since we switched to matrices, we need to use the matrix dot product instead of 
 // matrix.h
 
 // Get an element in the matrix
-double
+mfloat
 matrix_get(matrix m, int row, int col)
 {
     return m.buf[row * m.cols + col];
 }
 // Set an element in the matrix
 void
-matrix_set(matrix m, int row, int col, double val)
+matrix_set(matrix m, int row, int col, mfloat val)
 {
     m.buf[row * m.cols + col] = val;
 }
@@ -200,11 +203,11 @@ matrix_dot(matrix out, const matrix m1, const matrix m2)
 		// On the jth column of the second matrix
         for (int col = 0; col < m2.cols; col++) {
 			// Run the vector dot product and put the result in out[i][j]
-            double sum = 0.0;
+            mfloat sum = 0.0;
 			// m1.cols == m2.rows so k iterates over everything
             for (int k = 0; k < m1.cols; k++) {
-                double x1 = matrix_get(m1, row, k);
-                double x2 = matrix_get(m2, k, col);
+                mfloat x1 = matrix_get(m1, row, k);
+                mfloat x2 = matrix_get(m2, k, col);
                 sum += x1 * x2;
             }
             matrix_set(out, row, col, sum);
@@ -246,9 +249,9 @@ Now, we have the tools to code the prediction.
 // mlr.c
 
 // x is a row vector, or (1 x n) matrix
-double predict(struct mlinear_model model, const matrix x) {
+mfloat predict(struct mlinear_model model, const matrix x) {
 	// (1 x n) . (n x 1) => (1 x 1) matrix, which is a number
-	double result[1][1] = {0.0};
+	mfloat result[1][1] = {0.0};
 	matrix tmp = {.buf = result, .rows = 1, .cols = 1};
 	// Set tmp to the result
 	matrix_dot(tmp, x, model.w);
@@ -321,13 +324,13 @@ matrix matrix_get_row(matrix m, int i) {
       .buf = m.buf + i * m.cols, .rows = 1, .cols = m.cols};
 }
 
-double cost(struct mlinear_model *model, matrix X,
+mfloat cost(struct mlinear_model *model, matrix X,
                     matrix Y) {
-  double cost = 0.0;
+  mfloat cost = 0.0;
   for (int i = 0; i < X.rows; i++) {
     matrix x_i = matrix_get_row(X, i);
-    double f_wb = predict(model, x_i);
-    double diff = matrix_get(Y, 0, i) - f_wb;
+    mfloat f_wb = predict(model, x_i);
+    mfloat diff = matrix_get(Y, 0, i) - f_wb;
     cost += diff * diff;
   }
   return cost / (2.0 * X.rows);
@@ -420,7 +423,7 @@ Now, for the code
 ```c
 struct grad {
 	matrix dJ_dW;
-	double dJ_db;
+	mfloat dJ_db;
 };
 
 
@@ -437,11 +440,11 @@ void compute_gradient(struct grad *out,
     // tmp = X^(i)
     matrix curr_row = matrix_get_row(X, i);
     // y_hat = (X^(i) dot W) + b
-    double y_hat = predict(model, curr_row);
+    mfloat y_hat = predict(model, curr_row);
     // yi = y^(i)
-    double yi = matrix_get(Y, 0, i);
+    mfloat yi = matrix_get(Y, 0, i);
     // The term in parentheses
-    double err = y_hat - yi;
+    mfloat err = y_hat - yi;
 
     /*
      * For dJ_dW, we need to multiply the error
@@ -489,7 +492,7 @@ In code:
 ```c
 void gradient_descent(struct mlinear_model *model, const matrix X,
                       const matrix Y, const int num_iterations,
-                      const double alpha) {
+                      const mfloat alpha) {
   // reusable buffer for gradient
   int n = X.cols, m = X.rows;
   matrix dJ_dW = matrix_new(n, 1);
@@ -520,7 +523,7 @@ And that's all! Now we run the program on the data to see how our cost improves:
 int main() {
   // hyperparameters
   const int num_iterations = 1e7;
-  const double alpha = 1e-8;
+  const mfloat alpha = 1e-8;
 
   int n = X.cols, m = X.rows;
   matrix W = matrix_new(n, 1);
@@ -638,7 +641,7 @@ What does our normalized data look like?
 
 {{< plotly src="X_normalized_box_plot.html" >}}
 
-We can see the spreads all on the same scale now. How does this improve our performance?
+We can see the spreads are all on the same scale now. How does this improve our performance?
 
 ```c
 int main() {
@@ -648,7 +651,7 @@ int main() {
   struct mlinear_model model = {.W = W, .b = 0.0};
   printf("Initial cost: %f\n", compute_cost(&model, X, Y));
   const int num_iterations = 1e7;
-  const double alpha = 1e-8;
+  const mfloat alpha = 1e-8;
   gradient_descent(&model, X, Y, num_iterations, alpha);
   printf("Final cost: %f\n", compute_cost(&model, X, Y));
 
