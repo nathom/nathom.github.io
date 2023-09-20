@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning Fundamentals Part 2: Multivariate Linear Regression"
 date: 2023-09-20T10:44:52-07:00
-draft: true
+draft: false
 toc: true
 comments: true
 katex: true
