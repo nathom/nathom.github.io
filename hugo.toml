@@ -15,7 +15,7 @@ timeout = "180s"
 
 [imaging]
   # JPEG and WebP image processing quality, defaults to 75%
-  quality = 100
+  quality = 75
 
 [params]
   defaultTheme = "dark"
