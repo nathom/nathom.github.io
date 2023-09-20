@@ -728,6 +728,6 @@ its absolute value.
 
 ## Conclusion
 
-So that's all for Multivariate Linear Regression. This is by far going to be the most difficult article in the series, so fear not of the future! All the code can be found [here](TODO). I encourage you to run it and modify its behavior.
+So that's all for Multivariate Linear Regression. This is by far going to be the most difficult article in the series, so fear not of the future! All the code can be found [here](https://github.com/nathom/machine-learning-fundamentals/tree/main/part2). I encourage you to run it and modify its behavior.
 
 If you have any questions or comments, feel free to leave a comment or shoot me an email.
