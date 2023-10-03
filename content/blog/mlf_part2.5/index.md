@@ -3,6 +3,7 @@ title: "Machine Learning Fundamentals 2.5: Generic behavior in C with macros"
 date: 2023-10-02T19:30:41-07:00
 draft: false
 katex: true
+comments: true
 ---
 
 The tradeoff with the understanding gleaned from using a low-level language like C is the lack of features. When writing code for the purpose of demonstration, it's not really an issue. But when you need to write an actual application, it is. One of the notable features missing from C is *compile-time generics*.
