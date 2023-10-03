@@ -5,6 +5,7 @@ draft: false
 toc: true
 comments: true
 katex: true
+socialShare: true
 ---
 
 

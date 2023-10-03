@@ -4,6 +4,8 @@ languageCode = 'en-us'
 title = 'Thinkings'
 theme = 'hugo-theme-gruvbox'
 timeout = "180s"
+copyright = "© 2023 Nathaniel Thomas"
+enableGitInfo = true
 
 [markup]
   [markup.goldmark]
@@ -27,7 +29,6 @@ timeout = "180s"
   subtitle = "A blog"
   description = "A free space"
   comments = true
-  copyright = "© 2023 Nathaniel Thomas"
 
   [params.Giscus]
     repo              = "nathom/thinkings_comments"
