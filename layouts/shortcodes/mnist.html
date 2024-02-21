@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MNIST Model Live Comparison</title>
+    <style>
+      body {
+        <!-- background-color: #292929; -->
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        padding: 10px;
+      }
+      canvas {
+        border: 1px solid #000;
+        width: 400px;
+        height: 400px;
+      }
+
+      .clear-button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        background-color: #ff0000; /* Green color */
+        color: #fff; /* White text color */
+      }
+
+      .clear-button:hover {
+        background-color: #8b0000; /* Darker green color on hover */
+      }
+
+      .erase-button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        background-color: #ccc; /* Green color */
+        color: #fff; /* White text color */
+      }
+
+      .erase-button:hover {
+        background-color: #8b0000; /* Darker green color on hover */
+      }
+
+      input[type='range'] {
+        -webkit-appearance: none;
+        width: 30%;
+        height: 10px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        margin: 10px 0;
+      }
+
+      /* Styling for the slider thumb (handle) */
+      input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #3498db;
+        cursor: pointer;
+        border: 2px solid #fff;
+      }
+
+      /* Styling for the slider track */
+      input[type='range']::-webkit-slider-runnable-track {
+        width: 30%;
+        <!-- height: 10px; -->
+        background: #3498db;
+        border-radius: 5px;
+        border: none;
+      }
+
+      /* Styling for slider value display (optional) */
+      .slider-value {
+        font-size: 16px;
+        margin-top: 10px;
+      }
+
+      h1 {
+        font-family: 'Courier', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MNIST Model Live Comparison</h1>
+    <button id="clearButton" class="clear-button">Clear Pixels</button>
+    <button id="eraserToggle" class="erase-button">Switch to Eraser</button>
+    <br />
+    <br />
+    <br />
+    <label for="floatSlider" id="sliderLabel">Brush radius: 2.00</label>
+    <input
+      type="range"
+      id="floatSlider"
+      min="1"
+      max="5"
+      step="0.1"
+      value="2.00"
+    />
+    <br />
+    <br />
+    <br />
+    <canvas id="drawingCanvas" width="400" height="400"></canvas>
+    <canvas id="barGraphCanvas" width="400" height="300"></canvas>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Get the canvas element
+        let drawing = true;
+        let brushRadius = 1.5;
+        const canvas = document.getElementById('drawingCanvas');
+        const context = canvas.getContext('2d');
+        const bgCanvas = document.getElementById('barGraphCanvas');
+        const bgContext = bgCanvas.getContext('2d');
+
+        const clearButton = document.getElementById('clearButton');
+        const eraserToggle = document.getElementById('eraserToggle');
+        const floatSlider = document.getElementById('floatSlider');
+        const sliderLabel = document.getElementById('sliderLabel');
+        const weightsUrl =
+          'https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights.json';
+        const weights = fetchWeights(weightsUrl);
+        for (const w of weights) {
+          if (w[2].length !== 785) {
+            throw new Error('invalid length for w');
+          }
+        }
+
+        const pixels = new Array(28 * 28).fill(0);
+
+        drawGrid(pixels);
+        drawBarGraph(evalModel(pixels, weights));
+
+        function fetchWeights(url) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', url, false); // The third parameter 'false' makes it synchronous
+          xhr.send();
+
+          if (xhr.status === 200) {
+            // Successful request
+            const data = JSON.parse(xhr.responseText);
+            return data;
+          } else {
+            // Handle errors
+            console.error(
+              `Error fetching JSON. Status: ${xhr.status}, Text: ${xhr.statusText}`,
+            );
+            throw new Error('Error fetching JSON.');
+          }
+        }
+
+        function drawGrid(pixels) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          const pixelSize = canvas.width / 28;
+
+          // fill rectangles
+          // context.strokeStyle = '#fff';
+          for (let y = 0; y < 28; y++) {
+            for (let x = 0; x < 28; x++) {
+              context.globalAlpha = pixels[y * 28 + x];
+              context.fillRect(
+                x * pixelSize,
+                y * pixelSize,
+                pixelSize,
+                pixelSize,
+              );
+            }
+          }
+
+          context.globalAlpha = 1;
+          // create grid lines
+          context.beginPath();
+          for (let x = 0; x < canvas.width; x += pixelSize) {
+            context.moveTo(x, 0);
+            context.lineTo(x, canvas.height);
+          }
+          for (let y = 0; y < canvas.height; y += pixelSize) {
+            context.moveTo(0, y);
+            context.lineTo(canvas.width, y);
+          }
+          context.strokeStyle = '#ccc'; // Color of grid lines
+          context.stroke();
+        }
+
+        function clearAllPixels() {
+          for (let y = 0; y < 28; y++) {
+            for (let x = 0; x < 28; x++) {
+              pixels[y * 28 + x] = 0;
+            }
+          }
+          drawGrid(pixels);
+        }
+
+        function toggleMode(button) {
+          drawing = !drawing;
+          if (drawing) {
+            button.textContent = 'Switch to Eraser';
+            button.style.backgroundColor = '#ccc';
+          } else {
+            button.textContent = 'Switch to Pencil';
+            button.style.backgroundColor = '#000';
+          }
+        }
+
+        function vdot(digit, w) {
+          const digitCopy = [...digit];
+          digitCopy.push(1); // bias
+          console.log(digitCopy.length, digit.length);
+          if (w.length !== digitCopy.length)
+            throw new Error(
+              `w length ${w.length} != ${digitCopy.length} after bias appended`,
+            );
+          let sum = 0;
+          for (let i = 0; i < digit.length; i++) {
+            sum += digit[i] * w[i];
+          }
+          return sum;
+        }
+
+        function evalModel(digit, weights) {
+          const scores = new Array(10).fill(0);
+          for (const pairConfig of weights) {
+            const [i, j, w] = pairConfig;
+            const result = vdot(digit, w);
+            if (result > 0) {
+              scores[i] += 1;
+              scores[j] -= 1;
+            } else {
+              scores[j] += 1;
+              scores[i] -= 1;
+            }
+          }
+          return scores;
+        }
+
+        function fillPixel(x, y, r) {
+          const ps = canvas.width / 28;
+          // center of brush
+          const xp = Math.floor(x / ps);
+          const yp = Math.floor(y / ps);
+
+          if (r > 0) {
+            if (r <= 1.00001) {
+              if (drawing) pixels[yp * 28 + xp] = 1;
+              else pixels[yp * 28 + xp] = 0;
+            } else {
+              const r2 = r * r;
+              const rCeil = Math.ceil(r);
+              for (let ry = -rCeil; ry <= rCeil; ry++) {
+                for (let rx = -rCeil; rx <= rCeil; rx++) {
+                  const xc = xp + rx;
+                  const yc = yp + ry;
+                  const dist = ry * ry + rx * rx;
+                  if (dist > r2 || xc < 0 || xc >= 28 || yc < 0 || yc >= 28)
+                    continue;
+
+                  if (drawing) {
+                    // guaranteed to be > 0 bc dist/r2 <= 1
+                    const plateau = 0.3;
+                    const alpha = Math.min(1 - dist / r2 + plateau, 1);
+                    pixels[yc * 28 + xc] = Math.max(
+                      pixels[yc * 28 + xc],
+                      alpha,
+                    );
+                  } else {
+                    pixels[yc * 28 + xc] = 0;
+                  }
+                }
+              }
+            }
+          }
+          drawGrid(pixels);
+        }
+        function drawBarGraph(barValues) {
+          const barWidth = 30;
+          const gap = 10;
+          const graphHeight = bgCanvas.height - 20;
+          const maxBarHeight = Math.max(...barValues.map(Math.abs));
+          const highest = Math.max(...barValues);
+          let highestInd = -1;
+          for (let i = 0; i < barValues.length; i++) {
+            if (barValues[i] === highest) {
+              highestInd = i;
+              break;
+            }
+          }
+          bgContext.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+          for (let i = 0; i < barValues.length; i++) {
+            const x = i * (barWidth + gap);
+            const barHeight =
+              ((Math.abs(barValues[i]) / maxBarHeight) * graphHeight) / 2;
+            const startY =
+              bgCanvas.height -
+              (barValues[i] < 0 ? -10 : barHeight + 10) -
+              bgCanvas.height / 2;
+            const barColor = i === highestInd ? '#8FDB84' : '#ff0000';
+
+            // Draw the bar
+            bgContext.fillStyle = barColor;
+            bgContext.fillRect(x, startY, barWidth, barHeight);
+
+            // Draw the bar label
+            bgContext.fillStyle = '#333';
+            if (barValues[i] >= 0) {
+              bgContext.fillText(barValues[i], x + barWidth / 2, startY - 5);
+            } else {
+              bgContext.fillText(
+                barValues[i],
+                x + barWidth / 2,
+                startY + 10 + barHeight,
+              );
+            }
+            bgContext.fillText(i, x + barWidth / 2, bgCanvas.height / 2);
+          }
+        }
+        let isDrawing = false;
+
+        // Event listeners for mouse actions
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        clearButton.addEventListener('click', clearAllPixels);
+        eraserToggle.addEventListener('click', () => toggleMode(eraserToggle));
+        floatSlider.addEventListener('input', function () {
+          const selectedValue = parseFloat(floatSlider.value).toFixed(2);
+          brushRadius = selectedValue;
+          sliderLabel.textContent = `Brush radius: ${brushRadius}`;
+        });
+
+        function startDrawing(e) {
+          isDrawing = true;
+          draw(e); // Start drawing immediately
+        }
+
+        function draw(e) {
+          if (!isDrawing) return;
+
+          // Calculate the coordinates relative to the canvas
+          const x = e.clientX - canvas.offsetLeft;
+          const y = e.clientY - canvas.offsetTop;
+
+          // Set drawing styles
+          fillPixel(x, y, brushRadius);
+        }
+
+        function stopDrawing() {
+          isDrawing = false;
+          console.log(pixels);
+          const score = evalModel(pixels, weights);
+          drawBarGraph(score);
+        }
+      });
+    </script>
+  </body>
+</html>
