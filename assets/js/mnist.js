@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function draw(e) {
         if (!isDrawing) return;
 
-        // Calculate the coordinates relative to the canvas
-        const { x, y } = canvas.getBoundingClientRect();
-        const truex = e.clientX - x;
-        const truey = e.clientY - y;
+        const { x, y, width } = canvas.getBoundingClientRect();
+        const scale = canvas.width / width;
+        const truex = (e.clientX - x) * scale;
+        const truey = (e.clientY - y) * scale;
 
         // Set drawing styles
         fillPixel(context, canvas, drawing, pixels, truex, truey, brushRadius);
@@ -126,14 +126,53 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Event listeners for mouse actions
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", () => stopDrawing(pixels));
-    canvas.addEventListener("mouseout", () => stopDrawing(pixels));
+    const touchAvailable =
+        "createTouch" in document || "ontouchstart" in window;
+    if (touchAvailable) {
+        canvas.addEventListener(
+            "touchstart",
+            (e) => {
+                const event = {
+                    clientX: e.changedTouches[0].clientX,
+                    clientY: e.changedTouches[0].clientY,
+                };
+                startDrawing(event);
+            },
+            false,
+        );
+        canvas.addEventListener(
+            "touchmove",
+            (e) => {
+                const event = {
+                    clientX: e.changedTouches[0].clientX,
+                    clientY: e.changedTouches[0].clientY,
+                };
+                draw(event);
+            },
+            false,
+        );
+        canvas.addEventListener("touchend", () => stopDrawing(pixels), false);
+    } else {
+        canvas.addEventListener("mousedown", startDrawing, false);
+        canvas.addEventListener("mousemove", draw, false);
+        canvas.addEventListener("mouseup", () => stopDrawing(pixels), false);
+        canvas.addEventListener("mouseout", () => stopDrawing(pixels), false);
+    }
 
     clearButton.addEventListener("click", () => clearAllPixels(pixels));
     eraserToggle.addEventListener("click", () => toggleMode(eraserToggle));
     floatSlider.addEventListener("input", updateBrushRadius);
+    document.body.addEventListener(
+        "touchmove",
+        (e) => {
+            if (isDrawing) {
+                e.preventDefault();
+            }
+        },
+        {
+            passive: false,
+        },
+    );
 });
 
 /**
