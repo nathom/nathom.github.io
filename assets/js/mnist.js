@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.addEventListener("mousedown", startDrawing);
     canvas.addEventListener("mousemove", draw);
     canvas.addEventListener("mouseup", () => stopDrawing(pixels));
+    canvas.addEventListener("mouseout", () => stopDrawing(pixels));
 
     clearButton.addEventListener("click", () => clearAllPixels(pixels));
     eraserToggle.addEventListener("click", () => toggleMode(eraserToggle));
