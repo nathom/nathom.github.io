@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const weightsUrl =
         "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights.json";
+    // const nnWeightsUrl =
+    //     "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_nn.json";
     const nnWeightsUrl =
-        "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_nn.json";
+        "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_fcn_aug.json";
     const convWeightsUrl =
         "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_conv_aug.json";
     // TODO: make async
@@ -423,23 +425,52 @@ function drawBarGraph(bgContext, bgCanvas, barValues) {
  * @param {Array<any>} weights
  * @returns {Array<number>}
  */
+// function evalNN(digit, weights) {
+//     const digitCopy = [...digit];
+//     digitCopy.push(1);
+//     // layer 1 params
+//     const [w1, [rows1, cols1]] = weights[0];
+//     const out1 = matrixDot(
+//         digitCopy,
+//         w1,
+//         1,
+//         digitCopy.length,
+//         rows1,
+//         cols1,
+//     ).map(relu);
+//     const [w2, [rows2, cols2]] = weights[1];
+//     out1.push(1);
+//     const out2 = matrixDot(out1, w2, 1, out1.length, rows2, cols2);
+//     return softmax(out2);
+// }
+
 function evalNN(digit, weights) {
-    const digitCopy = [...digit];
-    digitCopy.push(1);
-    // layer 1 params
-    const [w1, [rows1, cols1]] = weights[0];
-    const out1 = matrixDot(
-        digitCopy,
-        w1,
-        1,
-        digitCopy.length,
-        rows1,
-        cols1,
-    ).map(relu);
-    const [w2, [rows2, cols2]] = weights[1];
-    out1.push(1);
-    const out2 = matrixDot(out1, w2, 1, out1.length, rows2, cols2);
-    return softmax(out2);
+    console.log("digit", digit, weights);
+    const [
+        [w1, [rows1, cols1]],
+        [b1, [b1size]],
+        [w2, [rows2, cols2]],
+        [b2, [b2size]],
+    ] = weights;
+    const out1 = matrixDot(w1, digit, 128, 784, 784, 1).map(relu);
+    const out2 = vectorAdd(out1, b1);
+    const out3 = matrixDot(w2, out2, 10, 128, 128, 1);
+    const out4 = vectorAdd(out3, b2);
+    return softmax(out4);
+}
+
+function vectorAdd(v1, v2) {
+    if (v1.length !== v2.length) {
+        console.error(
+            `unable to add vecs with lengths ${v1.length} ${v2.length}`,
+        );
+        return;
+    }
+    const out = new Array(v1.length);
+    for (let i = 0; i < v1.length; i++) {
+        out[i] = v1[i] + v2[i];
+    }
+    return out;
 }
 
 /**

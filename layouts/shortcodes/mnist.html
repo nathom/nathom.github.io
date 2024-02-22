@@ -191,7 +191,7 @@
       </div>
     </div>
 
-    {{ $mnist := resources.Get "js/mnist.js" | js.Build }}
+    {{ $mnist := resources.Get "js/mnist.js" | js.Build | minify }}
     <script src="{{ $mnist.Permalink }}"></script>
   </body>
 </html>
