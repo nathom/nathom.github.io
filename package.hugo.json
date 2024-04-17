@@ -1,4 +1,7 @@
 {
-  "name": "nathom.github.io",
-  "version": "0.1.0"
+    "name": "nathom.github.io",
+    "version": "0.1.0",
+    "dependencies": {
+        "solve2048": "0.1.1"
+    }
 }

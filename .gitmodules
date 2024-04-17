@@ -10,3 +10,6 @@
 [submodule "assets/js/solve2048"]
 	path = assets/js/solve2048
 	url = https://github.com/nathom/solve2048.git
+[submodule "assets/js/--force"]
+	path = assets/js/--force
+	url = https://github.com/nathom/solve2048.git

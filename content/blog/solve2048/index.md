@@ -8,11 +8,3 @@ katex: true
 ---
 
 {{< game_2048 >}}
-
-
-
-
-
-
-
-Let's solve 2048!

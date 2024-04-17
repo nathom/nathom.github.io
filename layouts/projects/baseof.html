@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html
+  lang="{{ .Site.Language.Lang | default "en" }}"
+  data-theme="{{ .Param "defaultTheme" | default "light" }}"
+>
+{{ block "main" . }}{{ end }}
+</html>
