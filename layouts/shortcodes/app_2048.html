@@ -2,7 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
+<!--a href that takes you to /content/projects -->
+    
     <title>2048.ai</title>
+
 
 <!-- include all *.css and concatenate in sorted order in assets/css/solve2048 -->
 
@@ -40,6 +43,8 @@
   </head>
   <body>
     <div class="container">
+      <a href='/projects' id='back-button'>< Back to Projects</a>
+      <br>
       <div class="heading">
         <h1 class="title">2048.ai</h1>
         <div class="scores-container">
@@ -162,14 +167,17 @@
       <p class="game-explanation">
         <strong class="important">Expectimax</strong> 
         This player uses the Expectimax algorithm to search through all possible game
-        states and choose the move with the highest likely score. The evaluation function
-        from the 2048-AI project was used. This should achieve the 32768 tile around
-        30% of the time, but it will be much slower than the other players.
+        states and choose the move with the highest likely score. An evaluation heuristic
+        that awards points based on various factors, such as merge score, empty tiles,
+        and monotonocity, is used to evaluate the game states. It should achieve
+        the 32768 tile around 30% of the time, but it will be much slower than the other players.
       </p>
       <hr />
 
       <p>
-         Made with Rust 🦀 and WebAssembly.
+      Made with Rust 🦀 and WebAssembly. Source code available on
+      <a href="https://github.com/nathom/solve2048">GitHub</a>.
+      <br>
 
         <a href="https://play2048.co" target="_blank">Play the original 2048</a>
       </p>
