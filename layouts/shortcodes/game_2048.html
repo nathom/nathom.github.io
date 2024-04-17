@@ -161,6 +161,9 @@
 
 
     {{ $js_2048 := resources.Get "js/solve2048_engine/index.js"  }}
-
+    {{ $wasm := resources.Get "js/solve2048_engine/file.wasm"  }}
+    <script>
+      wasm_path = "{{ $wasm.Permalink }}";
+    </script>
     <script src="{{ $js_2048.Permalink }}"></script>
 </html>

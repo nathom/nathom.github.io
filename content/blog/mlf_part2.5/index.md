@@ -61,7 +61,7 @@ SQUARED_MACRO(2 + 3)
 2 + 3*2 + 3
 ```
 
-We want `10`, but got `11`. Not good. We can solve this easily though.
+We want `25`, but got `11`. Not good. We can solve this easily though.
 
 ```c
 #define SQUARED_MACRO (x)*(x)
