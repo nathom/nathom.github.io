@@ -2,12 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-<!--a href that takes you to /content/projects -->
-    
     <title>2048.ai</title>
-
-
-<!-- include all *.css and concatenate in sorted order in assets/css/solve2048 -->
 
 {{ $css_slider := resources.Get "js/solve2048/www/style/slider.css" | resources.Minify }}
 {{ $css_prog := resources.Get "js/solve2048/www/style/progress.css" | resources.Minify }}
@@ -16,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ $css_slider.Permalink }}" />
     <link rel="stylesheet" type="text/css" href="{{ $css_prog.Permalink }}" />
     <link rel="stylesheet" type="text/css" href="{{ $css_main.Permalink }}" />
+
     <!-- <link href="style/main.css" rel="stylesheet" type="text/css" /> -->
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="meta/apple-touch-icon.png" />
@@ -43,8 +39,6 @@
   </head>
   <body>
     <div class="container">
-      <a href='/projects' id='back-button'>< Back to Projects</a>
-      <br>
       <div class="heading">
         <h1 class="title">2048.ai</h1>
         <div class="scores-container">
@@ -74,12 +68,20 @@
       </div>
 
       <div class="agent-settings">
-        <label id="delay-label" for="rangeInput">Delay: 100 ms</label>
+        <div class="generic-label">
+          <p id="ms-per-move">0</p>
+          <p id='ms-per-move-label'>ms per move</p>
+        </div>
+        <div class="delay-label-container">
+          <p>Delay:</p>
+          <p id="delay-label">100</p>
+          <p id="ms-delay-text">ms</p>
+        </div>
         <input
           id="delay-range"
           type="range"
           min="0"
-          max="1000"
+          max="500"
           value="100"
           step="1"
         />
@@ -123,17 +125,6 @@
 
         <div class="tile-container"></div>
       </div>
-      <!-- <div class="infinity-1"></div> -->
-      <!-- <div class="infinity-2"></div> -->
-      <!-- <div class="infinity-3"></div> -->
-      <!-- <div class="infinity-4"></div> -->
-      <!-- <div class="infinity-5"></div> -->
-      <!-- <div class="infinity-6"></div> -->
-      <!-- <div class="infinity-7"></div> -->
-      <!-- <div class="infinity-8"></div> -->
-      <!-- <div class="infinity-9"></div> -->
-      <!-- <div class="infinity-10"></div> -->
-
 
       <div class="progress-container">
         <p id="download-progress-label">Downloading Weights (--/-- MB)</p>
@@ -174,6 +165,12 @@
       </p>
       <hr />
 
+      <p> The actual 2048 game is exactly the same as the 
+      <a href='https://github.com/gabrielecirulli/2048'>original</a>.
+      The prediction engine only has access to the current board state.
+      No information about the next random tile position or value is known.
+      </p>
+
       <p>
       Made with Rust 🦀 and WebAssembly. Source code available on
       <a href="https://github.com/nathom/solve2048">GitHub</a>.
@@ -184,9 +181,6 @@
       <p>
 © 2024 Nathaniel Thomas.
       </p>
-    </div>
-    <!-- include assets/js/solve2048/www/boostrap.js -->
-
 
     {{ $js_2048 := resources.Get "js/solve2048/www/output/index.js"  }}
     {{ $wasm := resources.Get "js/solve2048/www/output/solve2048_bg.wasm"  }}
@@ -194,4 +188,11 @@
       wasm_path = "{{ $wasm.Permalink }}";
     </script>
     <script src="{{ $js_2048.Permalink }}"></script>
+
+    <!-- <script> -->
+    <!--   wasm_path = "./solve2048_bg.wasm"; -->
+    <!-- </script> -->
+    <!-- <script src="./index.js"></script> -->
+
+  </body>
 </html>
