@@ -24,30 +24,30 @@
     },
     "work": [
         {
+            "name": "Keysight Technologies",
+            "location": "Santa Rosa, CA",
+            "description": "AI Infrastructure",
+            "position": "AI/ML Software Intern",
+            "url": "https://www.keysight.com/us/en/home.html",
+            "startDate": "2024-07",
+            "endDate": "2023-09",
+            "summary": "",
+            "highlights": []
+        },
+        {
             "name": "Yahoo!",
             "location": "Mountain View, CA",
             "description": "Yahoo Developer Network & CI/CD",
             "position": "Software Engineering Intern",
             "url": "https://www.yahoo.com",
-            "startDate": "2023-07-20",
-            "endDate": "2023-09-08",
+            "startDate": "2023-07",
+            "endDate": "2023-09",
             "summary":
                 "Worked on the Platform Engineering team to build and improve developer tools.",
             "highlights": [
                 "Created a Slack bot that indexes internal documentation and detects in-channel questions using NLP",
                 "Made improvements to usage metrics within the internal CI/CD tool"
             ]
-        },
-        {
-            "name": "Keysight Technologies",
-            "location": "Santa Rosa, CA",
-            "description": "AI Infrastructure",
-            "position": "AI/ML Software Intern",
-            "url": "https://www.keysight.com/us/en/products/software/",
-            "startDate": "2024-07-24",
-            "endDate": "2023-09-20",
-            "summary": "",
-            "highlights": []
         }
     ],
     "volunteer": [],

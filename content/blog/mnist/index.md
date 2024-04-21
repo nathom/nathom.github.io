@@ -6,6 +6,7 @@ math: true
 katex: true
 comments: true
 toc: true
+summary: Draw digits on the canvas and watch an AI guess what it is!
 ---
 
 {{< mnist >}}

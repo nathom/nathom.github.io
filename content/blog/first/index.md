@@ -8,7 +8,7 @@ katex: true
 
 Here are some code snippets in various languages that compute the [Basel Problem](https://en.wikipedia.org/wiki/Basel_problem):
 
-
+<!--more-->
 
 To begin, $\LaTeX$
 

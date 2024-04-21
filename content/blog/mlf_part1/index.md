@@ -8,7 +8,11 @@ comments: true
 ---
 
 
-Welcome to my N-part series (N to be determined) on Machine Learning Fundamentals in C. This series will be all about *fundamentals*, which I feel is missing from much of the online resources related to Machine Learning and Neural Networks. When I initially sought out to learn about neural networks, all I found were articles that either
+Welcome to my N-part series (N to be determined) on Machine Learning Fundamentals in C. This series will be all about *fundamentals*, which I feel is missing from much of the online resources related to Machine Learning and Neural Networks. 
+
+<!--more-->
+
+When I initially sought out to learn about neural networks, all I found were articles that either
 
 1. Showed a couple lines of Tensorflow code that fetched training data, trained the model, and ran predictions, or
 2. Lower-level tutorials that gave implementation details, but left me with more questions than answers

@@ -6,7 +6,7 @@ katex: true
 comments: true
 ---
 
-The tradeoff with the understanding gleaned from using a low-level language like C is the lack of features. When writing code for the purpose of demonstration, it's not really an issue. But when you need to write an actual application, it is. One of the notable features missing from C is *compile-time generics*.
+The tradeoff with the understanding gleaned from using a low-level language like C is the lack of features. When writing code for the purpose of demonstration, it's not really an issue. But when you need to write an actual application, it is. <!--more--> One of the notable features missing from C is *compile-time generics*.
 
 Compile time generics are a type of code duplication that depends on the following constraints:
 

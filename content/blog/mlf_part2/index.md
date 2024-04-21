@@ -11,6 +11,8 @@ socialShare: true
 
 Welcome to Part 2 / N of my Machine Learning Fundamentals in C series! If you haven't already, go through [part 1](/blog/mlf_part1)—I'm going to assume you're familiar with the concepts there in this article.
 
+<!--more-->
+
 ## Beyond one variable
 
 Our first machine learning model, the Univariate Linear Regression Model, was *technically* machine learning, but if we're being honest with ourselves, it's not very impressive. 
