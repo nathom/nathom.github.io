@@ -188,7 +188,6 @@ target = "layouts"
 source = "assets/css/json-resume.css"
 target = "assets/css/critical/44-json-resume.css"
 [[module.mounts]]
-# required by hugo-mod-json-resume
 source = "node_modules/simple-icons/icons"
 target = "assets/simple-icons"
 [[module.mounts]]
@@ -215,6 +214,3 @@ target = "static/fonts"
 [[module.mounts]]
 source = "node_modules/@tabler/icons/icons"
 target = "assets/tabler-icons"
-[[module.mounts]]
-source = "node_modules/solve2048"
-target = "assets/solve2048"
