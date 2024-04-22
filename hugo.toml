@@ -141,28 +141,18 @@ iconName = "mail"
 formatString = "mailto:?subject={title}&body={url}"
 
 [menu]
-# [[menu.main]]
-#   identifier = "blog"
-#   name = "Blog"
-#   url = "/blog"
-#   weight = 10
-# [[menu.main]]
-#   identifier = "cv"
-#   name = "CV"
-#   url = "/cv"
-#   weight = 20
 [[menu.main]]
-identifier = "about"
-name = "About"
-url = "/about"
-weight = 30
-
+identifier = "blog"
+name = "Blog"
+url = "/blog"
+weight = 10
 
 [[menu.main]]
 identifier = "projects"
 name = "Projects"
 url = "/projects"
-weights = 40
+weights = 30
+
 
 [languages]
 [languages.en]
