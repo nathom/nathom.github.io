@@ -199,6 +199,8 @@
       "drawingCanvas",
       "education",
       "element-wise-operations",
+      "embedding-webassembly-into-hugo",
+      "embedding-webassembly-into-the-site",
       "eraserToggle",
       "examples",
       "excalidraw",

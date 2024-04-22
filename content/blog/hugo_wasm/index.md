@@ -3,6 +3,7 @@ title: "Building and Deploying Rust to a Hugo Site"
 date: 2024-04-22T14:32:24-07:00
 draft: false
 comments: true
+toc: true
 ---
 
 We're going to go through a minimal example that will let you run Rust code on
@@ -149,7 +150,7 @@ init(wasm_path).then(_ => {
 });
 ```
 
-## Calling wasm from Hugo
+## Embedding WebAssembly into the Site
 
 Now, we want the output of the wasm function to show up
 on the site. So, let's make a shortcode that we can insert into an article with
