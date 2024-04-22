@@ -29,6 +29,8 @@ author = "Nathan Thomas"
 subtitle = "A blog"
 description = "A free space"
 comments = true
+mainSections = ['blog']
+searchableSections = ['blog', 'projects']
 
 [params.Giscus]
 repo = "nathom/thinkings_comments"
