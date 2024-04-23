@@ -1,15 +1,51 @@
-<script src="https://giscus.app/client.js"
-        data-repo="{{.Site.Params.Giscus.repo}}"
-        data-repo-id="{{.Site.Params.Giscus.repo_id}}"
-        data-category="{{.Site.Params.Giscus.category}}"
-        data-category-id="{{.Site.Params.Giscus.category_id}}"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="{{.Site.Params.Giscus.reactions_enabled}}"
-        data-emit-metadata="0"
-        data-input-position="{{.Site.Params.Giscus.input_position}}"
-        data-theme="{{.Site.Params.Giscus.theme}}"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
+<div id="giscus-container"></div>
+<script>
+  // Function to check if the user has scrolled to a certain point on the page
+  function hasScrolledToThreshold(threshold) {
+    return window.innerHeight + window.scrollY >= threshold;
+  }
+
+  // Function to load the Giscus script
+  function loadGiscusScript() {
+    // Create a <script> element
+    var script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", "{{.Site.Params.Giscus.repo}}");
+    script.setAttribute("data-repo-id", "{{.Site.Params.Giscus.repo_id}}");
+    script.setAttribute("data-category", "{{.Site.Params.Giscus.category}}");
+    script.setAttribute(
+      "data-category-id",
+      "{{.Site.Params.Giscus.category_id}}",
+    );
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute(
+      "data-reactions-enabled",
+      "{{.Site.Params.Giscus.reactions_enabled}}",
+    );
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute(
+      "data-input-position",
+      "{{.Site.Params.Giscus.input_position}}",
+    );
+    script.setAttribute("data-theme", "{{.Site.Params.Giscus.theme}}");
+    script.setAttribute("data-lang", "en");
+    script.crossOrigin = "anonymous";
+
+    // Append the <script> element to the <body> element
+    let afterPost = document.getElementById("giscus-container");
+    afterPost.appendChild(script);
+  }
+
+  // Event listener to detect when the user scrolls
+  window.addEventListener("scroll", function () {
+    // Check if the user has scrolled to a certain point on the page
+    var threshold = document.body.scrollHeight / 2;
+    if (hasScrolledToThreshold(threshold)) {
+      // If so, load the Giscus script
+      loadGiscusScript();
+      // Remove the event listener to prevent the script from being loaded multiple times
+      window.removeEventListener("scroll", arguments.callee);
+    }
+  });
 </script>
