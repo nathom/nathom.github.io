@@ -24,8 +24,9 @@ input[type="range"].win10-thumb {
 /* === range commons === */
 input[type="range"] {
   position: relative;
-  background: var(--bg);
+  background: var(--bg1);
   overflow: hidden;
+  margin-top: auto;
 }
 
 input[type="range"]:active {

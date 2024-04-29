@@ -1,3 +1,6 @@
+@import "progress";
+@import "slider";
+
 html,
 body {
   /* margin: 0; */
@@ -59,6 +62,16 @@ h1.title {
     opacity: 0;
   }
 }
+
+.border-container {
+  margin: 5px;
+  border: 2px solid var(--bg2);
+  border-radius: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: var(--bg1);
+}
+
 .scores-container {
   float: right;
   text-align: right;
@@ -689,14 +702,52 @@ strong.important {
 .random-move-button:hover {
   background: var(--fg2);
 }
-
 .agent-settings {
-  /* display: flex; */
+  display: flex;
+  flex-direction: row;
   margin-top: 8px;
 }
 .agent-settings label {
   margin-right: 10px;
   white-space: nowrap;
+}
+
+.generic-label {
+  display: flex;
+  width: 80%;
+  margin-top: 5px;
+}
+
+.delay-label-container {
+  display: flex;
+  width: 50%;
+  margin-top: 5px;
+}
+
+.delay-label-container p {
+  margin-bottom: 0px;
+}
+.generic-label p {
+  margin-bottom: 0px;
+}
+
+#delay-label {
+  text-align: right;
+  width: 3.5ch;
+  margin-left: 0.5ch;
+}
+
+#ms-per-move {
+  width: 4ch;
+  text-align: right;
+}
+
+#ms-per-move-label {
+  flex-shrink: 1;
+}
+
+#ms-delay-text {
+  margin-right: 0.5ch;
 }
 
 .shake-animation {
