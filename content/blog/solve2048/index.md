@@ -89,4 +89,61 @@ def choose_best_move(board):
     return moves[argmax(scores)]
 ```
 
+### N-Tuple Network
 
+N-Tuple networks, originally conceived of as [RAMnets](https://en.wikipedia.org/wiki/RAMnets),
+have been discovered to be extremely good at playing 2048 when trained using temporal 
+difference learning. They effectively define a function $F$ that maps some kind of feature, 
+encoded in binary, to a score which represents how *good* that specific feature is.
+
+This function, unlike most modern neural nets, is not computed but stored in an array, each of
+whose elements represent the *score* of the feature that corresponds to its index.
+
+To understand how we will index into the array, let's look at the implementation
+of the game board.
+
+#### Board Implementation
+
+```rust
+struct Board {
+    raw: u64,
+}
+```
+
+That's right, we fit the whole thing into a 64 bit unsigned integer. We do this by observing that
+
+1. Each tile value is either empty, or $2^n$ where $n \ge 1$
+2. From experience, we probably will not get the $2^{16}=65536$ tile.
+
+This results in the bound $1 \le n \le 15$. Thus, we have $15+1$ possible values
+for each tile, meaning we can pack it into $4$ bits. To get the tile value back we use
+
+$$
+\text{actualvalue}(n) =
+\begin{cases}
+\text{empty} &\text{ if } n = 0 \\\\
+2^n &\text{ otherwise} 
+\end{cases}
+$$
+
+#### Architecture
+
+The network we use is a $4 \times 6$ tuple net, which has 4 features, with each feature
+representing a configuration of $6$ tiles on the board. Since each tile takes up $4$ bits,
+each feature will use $6 \times 4 = 24$ bits.
+
+![The 4 features in our network](tuples2.svg "The 4 features, each of which represent the state of 6 tiles.")
+
+Since our network is a map from feature $\to$ score, we use an array
+of $2^{4 \times 6} = \text{16,777,216}$ 32-bit floats to store each feature.
+Since each float is 4 bytes, this brings our network size up to $4 \times 4 \times \text{16,777,216} = \text{268,435,456}$ bytes.
+
+One handy observation we can make is that the value of the feature should not change
+depending on its location on the board. For example, a row with the tiles 
+$(512,1024,2048,4096)$ is equally good whether it's on the top, bottom, left, 
+or right of the board. In fact, even if we reverse it's order, it's just as good. This means
+we can reuse the same weights to calculate the score of the feature on all 
+orientations, or symmetries, of the board. A square has 
+[8 such symmetries](https://groupprops.subwiki.org/wiki/Dihedral_group:D8), which we show below.
+
+![](2048_isometries.svg "The orange feature on the 8 symmetries of the square. The first section contains the 4 features with rotation. The second applies a horizontal flip and rotations.")
