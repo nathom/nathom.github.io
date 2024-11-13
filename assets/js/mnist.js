@@ -1,37 +1,37 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
     // Get the canvas element
     let drawing = true;
     let isDrawing = false;
     let brushRadius = 2.8;
-    const canvas = document.getElementById("drawingCanvas");
-    const context = canvas.getContext("2d");
+    const canvas = document.getElementById('drawingCanvas');
+    const context = canvas.getContext('2d');
 
-    const bgCanvas = document.getElementById("barGraphCanvas");
-    const bgContext = bgCanvas.getContext("2d");
+    const bgCanvas = document.getElementById('barGraphCanvas');
+    const bgContext = bgCanvas.getContext('2d');
 
-    const nnCanvas = document.getElementById("nnBarGraphCanvas");
-    const nnContext = nnCanvas.getContext("2d");
+    const nnCanvas = document.getElementById('nnBarGraphCanvas');
+    const nnContext = nnCanvas.getContext('2d');
 
-    const convCanvas = document.getElementById("convBarGraphCanvas");
-    const convContext = convCanvas.getContext("2d");
+    const convCanvas = document.getElementById('convBarGraphCanvas');
+    const convContext = convCanvas.getContext('2d');
 
-    const clearButton = document.getElementById("clearButton");
-    const eraserToggle = document.getElementById("eraserToggle");
-    const floatSlider = document.getElementById("floatSlider");
-    const sliderLabel = document.getElementById("sliderLabel");
+    const clearButton = document.getElementById('clearButton');
+    const eraserToggle = document.getElementById('eraserToggle');
+    const floatSlider = document.getElementById('floatSlider');
+    const sliderLabel = document.getElementById('sliderLabel');
 
-    const lsBgTitle = document.getElementById("ls-inference");
-    const nnBgTitle = document.getElementById("nn-inference");
-    const convBgTitle = document.getElementById("conv-inference");
+    const lsBgTitle = document.getElementById('ls-inference');
+    const nnBgTitle = document.getElementById('nn-inference');
+    const convBgTitle = document.getElementById('conv-inference');
 
     const weightsUrl =
-        "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights.json";
+        'https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights.json';
     // const nnWeightsUrl =
     //     "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_nn.json";
     const nnWeightsUrl =
-        "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_fcn_aug.json";
+        'https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_fcn_aug.json';
     const convWeightsUrl =
-        "https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_conv_aug.json";
+        'https://raw.githubusercontent.com/nathom/ece174_mini_project/main/resources/weights_conv_aug.json';
     // TODO: make async
 
     const weights = fetchWeights(weightsUrl);
@@ -45,15 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
     drawLogitsBarGraph(nnContext, nnCanvas, dummyScore);
     drawLogitsBarGraph(convContext, convCanvas, dummyScore);
 
-    function startDrawing(e) {
+    function startDrawing(e)
+    {
         isDrawing = true;
-        draw(e); // Start drawing immediately
+        draw(e);  // Start drawing immediately
     }
 
     /**
      * @param {number[]} pixels
      */
-    async function stopDrawing(pixels) {
+    async function stopDrawing(pixels)
+    {
         isDrawing = false;
         const lsStart = performance.now();
         const score = evalLSModel(pixels, await weights);
@@ -75,7 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
      * @param {number} nnTime
      * @param {number} convTime
      */
-    function updatePerfStats(lsTime, nnTime, convTime) {
+    function updatePerfStats(lsTime, nnTime, convTime)
+    {
         const ls = Math.round(lsTime);
         const nn = Math.round(nnTime);
         const conv = Math.round(convTime);
@@ -84,10 +87,11 @@ document.addEventListener("DOMContentLoaded", () => {
         convBgTitle.textContent = `Convolutional Network (${conv} ms)`;
     }
 
-    function draw(e) {
+    function draw(e)
+    {
         if (!isDrawing) return;
 
-        const { x, y, width } = canvas.getBoundingClientRect();
+        const {x, y, width} = canvas.getBoundingClientRect();
         const scale = canvas.width / width;
         const truex = (e.clientX - x) * scale;
         const truey = (e.clientY - y) * scale;
@@ -95,7 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // Set drawing styles
         fillPixel(context, canvas, drawing, pixels, truex, truey, brushRadius);
     }
-    function updateBrushRadius() {
+    function updateBrushRadius()
+    {
         const selectedValue = parseFloat(floatSlider.value);
         brushRadius = selectedValue;
         sliderLabel.textContent = `Brush radius: ${brushRadius.toFixed(1)}`;
@@ -103,7 +108,8 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * @param {Array<number>} pixels Array of pixels
      */
-    function clearAllPixels(pixels) {
+    function clearAllPixels(pixels)
+    {
         for (let y = 0; y < 28; y++) {
             for (let x = 0; x < 28; x++) {
                 pixels[y * 28 + x] = 0;
@@ -114,25 +120,26 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * @param {HTMLElement} button
      */
-    function toggleMode(button) {
+    function toggleMode(button)
+    {
         drawing = !drawing;
         if (drawing) {
-            button.textContent = "Switch to Eraser";
-            button.style.backgroundColor = "var(--fg0)";
-            button.style.color = "var(--bg0)";
+            button.textContent = 'Switch to Eraser';
+            button.style.backgroundColor = 'var(--fg0)';
+            button.style.color = 'var(--bg0)';
         } else {
-            button.textContent = "Switch to Pencil";
-            button.style.backgroundColor = "var(--bg0)";
-            button.style.color = "var(--fg0)";
+            button.textContent = 'Switch to Pencil';
+            button.style.backgroundColor = 'var(--bg0)';
+            button.style.color = 'var(--fg0)';
         }
     }
 
     // Event listeners for mouse actions
     const touchAvailable =
-        "createTouch" in document || "ontouchstart" in window;
+        'createTouch' in document || 'ontouchstart' in window;
     if (touchAvailable) {
         canvas.addEventListener(
-            "touchstart",
+            'touchstart',
             (e) => {
                 const event = {
                     clientX: e.changedTouches[0].clientX,
@@ -143,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
             false,
         );
         canvas.addEventListener(
-            "touchmove",
+            'touchmove',
             (e) => {
                 const event = {
                     clientX: e.changedTouches[0].clientX,
@@ -153,19 +160,19 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             false,
         );
-        canvas.addEventListener("touchend", () => stopDrawing(pixels), false);
+        canvas.addEventListener('touchend', () => stopDrawing(pixels), false);
     } else {
-        canvas.addEventListener("mousedown", startDrawing, false);
-        canvas.addEventListener("mousemove", draw, false);
-        canvas.addEventListener("mouseup", () => stopDrawing(pixels), false);
-        canvas.addEventListener("mouseout", () => stopDrawing(pixels), false);
+        canvas.addEventListener('mousedown', startDrawing, false);
+        canvas.addEventListener('mousemove', draw, false);
+        canvas.addEventListener('mouseup', () => stopDrawing(pixels), false);
+        canvas.addEventListener('mouseout', () => stopDrawing(pixels), false);
     }
 
-    clearButton.addEventListener("click", () => clearAllPixels(pixels));
-    eraserToggle.addEventListener("click", () => toggleMode(eraserToggle));
-    floatSlider.addEventListener("input", updateBrushRadius);
+    clearButton.addEventListener('click', () => clearAllPixels(pixels));
+    eraserToggle.addEventListener('click', () => toggleMode(eraserToggle));
+    floatSlider.addEventListener('input', updateBrushRadius);
     document.body.addEventListener(
-        "touchmove",
+        'touchmove',
         (e) => {
             if (isDrawing) {
                 e.preventDefault();
@@ -180,7 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  * @param {string} githubRawUrl
  */
-async function fetchWeights(githubRawUrl) {
+async function fetchWeights(githubRawUrl)
+{
     try {
         const response = await fetch(githubRawUrl);
 
@@ -191,7 +199,7 @@ async function fetchWeights(githubRawUrl) {
         const jsonData = await response.json();
         return jsonData;
     } catch (error) {
-        console.error("Error fetching weights:", error.message, githubRawUrl);
+        console.error('Error fetching weights:', error.message, githubRawUrl);
         return null;
     }
 }
@@ -200,7 +208,8 @@ async function fetchWeights(githubRawUrl) {
  * @param {any} canvas
  * @param {Array<number>} pixels
  */
-function drawGrid(context, canvas, pixels) {
+function drawGrid(context, canvas, pixels)
+{
     // ensure 1:1 aspect ratio
     context.canvas.height = context.canvas.width;
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -212,8 +221,9 @@ function drawGrid(context, canvas, pixels) {
         for (let x = 0; x < 28; x++) {
             context.globalAlpha = pixels[y * 28 + x];
             const myColor = getComputedStyle(
-                document.documentElement,
-            ).getPropertyValue("--fg0");
+                                document.documentElement,
+                                )
+                                .getPropertyValue('--fg0');
             context.fillStyle = myColor;
             context.fillRect(
                 x * pixelSize,
@@ -235,7 +245,7 @@ function drawGrid(context, canvas, pixels) {
         context.moveTo(0, y);
         context.lineTo(canvas.width, y);
     }
-    context.strokeStyle = "#ccc"; // Color of grid lines
+    context.strokeStyle = '#ccc';  // Color of grid lines
     context.stroke();
 }
 
@@ -244,7 +254,8 @@ function drawGrid(context, canvas, pixels) {
  * @param {Array<number>} w
  * @returns {number} digit @ w
  */
-function vdot(digit, w) {
+function vdot(digit, w)
+{
     if (w.length !== digit.length + 1)
         throw new Error(
             `w length ${w.length} != ${digit.length} after bias appended`,
@@ -253,7 +264,7 @@ function vdot(digit, w) {
     for (let i = 0; i < digit.length; i++) {
         sum += digit[i] * w[i];
     }
-    sum += w[w.length - 1]; // bias
+    sum += w[w.length - 1];  // bias
     return sum;
 }
 
@@ -262,7 +273,8 @@ function vdot(digit, w) {
  * @param {Array<Array<any>>} weights
  * @returns {Array<number>}
  */
-function evalLSModel(digit, weights) {
+function evalLSModel(digit, weights)
+{
     const scores = new Array(10).fill(0);
     for (const pairConfig of weights) {
         const [i, j, w] = pairConfig;
@@ -287,7 +299,8 @@ function evalLSModel(digit, weights) {
  * @param {number} y
  * @param {number} r
  */
-function fillPixel(context, canvas, drawing, pixels, x, y, r) {
+function fillPixel(context, canvas, drawing, pixels, x, y, r)
+{
     const ps = canvas.width / 28;
     // center of brush
     const xp = Math.floor(x / ps);
@@ -295,8 +308,10 @@ function fillPixel(context, canvas, drawing, pixels, x, y, r) {
     if (r > 0) {
         if (r <= 1.00001) {
             if (xp >= 0 && xp < 28 && yp >= 0 && yp < 28) {
-                if (drawing) pixels[yp * 28 + xp] = 1;
-                else pixels[yp * 28 + xp] = 0;
+                if (drawing)
+                    pixels[yp * 28 + xp] = 1;
+                else
+                    pixels[yp * 28 + xp] = 0;
             }
         } else {
             const r2 = r * r;
@@ -332,7 +347,8 @@ function fillPixel(context, canvas, drawing, pixels, x, y, r) {
  * @param {any} canvas
  * @param {any} values
  */
-function drawLogitsBarGraph(context, canvas, values) {
+function drawLogitsBarGraph(context, canvas, values)
+{
     const gap = 10;
     const barWidth = canvas.width / 10 - gap;
     const graphHeight = canvas.height - 30;
@@ -348,9 +364,9 @@ function drawLogitsBarGraph(context, canvas, values) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const style = getComputedStyle(document.documentElement);
-    const fgColor = style.getPropertyValue("--fg0");
-    const red = style.getPropertyValue("--red1");
-    const green = style.getPropertyValue("--aqua2");
+    const fgColor = style.getPropertyValue('--content-primary');
+    const red = style.getPropertyValue('--red1');
+    const green = style.getPropertyValue('--aqua2');
     for (let i = 0; i < values.length; i++) {
         const x = i * (barWidth + gap) + gap / 2;
         const barHeight = (Math.abs(values[i]) / maxBarHeight) * graphHeight;
@@ -372,7 +388,8 @@ function drawLogitsBarGraph(context, canvas, values) {
  * @param {any} bgCanvas
  * @param {any} barValues
  */
-function drawBarGraph(bgContext, bgCanvas, barValues) {
+function drawBarGraph(bgContext, bgCanvas, barValues)
+{
     const gap = 10;
     const barWidth = bgCanvas.width / 10 - gap;
     const graphHeight = bgCanvas.height - 20;
@@ -388,17 +405,15 @@ function drawBarGraph(bgContext, bgCanvas, barValues) {
     bgContext.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
     const style = getComputedStyle(document.documentElement);
-    const fgColor = style.getPropertyValue("--fg0");
-    const red = style.getPropertyValue("--red1");
-    const green = style.getPropertyValue("--aqua2");
+    const fgColor = style.getPropertyValue('--content-primary');
+    const red = style.getPropertyValue('--red1');
+    const green = style.getPropertyValue('--aqua2');
     for (let i = 0; i < barValues.length; i++) {
         const x = i * (barWidth + gap) + gap / 2;
         const barHeight =
             (Math.abs(barValues[i]) / maxBarHeight) * (graphHeight / 2 - 15);
-        const startY =
-            bgCanvas.height -
-            (barValues[i] < 0 ? -10 : barHeight + 10) -
-            bgCanvas.height / 2;
+        const startY = bgCanvas.height -
+            (barValues[i] < 0 ? -10 : barHeight + 10) - bgCanvas.height / 2;
         const barColor = i === highestInd ? green : red;
 
         // Draw the bar
@@ -420,32 +435,8 @@ function drawBarGraph(bgContext, bgCanvas, barValues) {
     }
 }
 
-/**
- * @param {Array<number>} digit
- * @param {Array<any>} weights
- * @returns {Array<number>}
- */
-// function evalNN(digit, weights) {
-//     const digitCopy = [...digit];
-//     digitCopy.push(1);
-//     // layer 1 params
-//     const [w1, [rows1, cols1]] = weights[0];
-//     const out1 = matrixDot(
-//         digitCopy,
-//         w1,
-//         1,
-//         digitCopy.length,
-//         rows1,
-//         cols1,
-//     ).map(relu);
-//     const [w2, [rows2, cols2]] = weights[1];
-//     out1.push(1);
-//     const out2 = matrixDot(out1, w2, 1, out1.length, rows2, cols2);
-//     return softmax(out2);
-// }
-
-function evalNN(digit, weights) {
-    console.log("digit", digit, weights);
+function evalNN(digit, weights)
+{
     const [
         [w1, [rows1, cols1]],
         [b1, [b1size]],
@@ -459,7 +450,8 @@ function evalNN(digit, weights) {
     return softmax(out4);
 }
 
-function vectorAdd(v1, v2) {
+function vectorAdd(v1, v2)
+{
     if (v1.length !== v2.length) {
         console.error(
             `unable to add vecs with lengths ${v1.length} ${v2.length}`,
@@ -478,14 +470,15 @@ function vectorAdd(v1, v2) {
  * @param {[number[], number[]][]} weights
  * @returns {number[]}
  */
-function evalConv(digit, weights) {
+function evalConv(digit, weights)
+{
     const [
-        [f1, fshape1], // conv filter weights
-        [b1, bshape1], // conv bias
+        [f1, fshape1],  // conv filter weights
+        [b1, bshape1],  // conv bias
         [f2, fshape2],
         [b2, fbshape2],
-        [w, wshape], // fcn weights
-        [b, bshape], // fcn bias
+        [w, wshape],  // fcn weights
+        [b, bshape],  // fcn bias
     ] = weights;
 
     const x1 = conv2d(1, 32, digit, 28, 28, f1, b1).map(relu);
@@ -503,9 +496,10 @@ function evalConv(digit, weights) {
  * @param {number[]} arr2
  * @returns {number[]}
  */
-function vsum(arr1, arr2) {
+function vsum(arr1, arr2)
+{
     if (arr1.length !== arr2.length) {
-        console.error("Unequal lengths for sum");
+        console.error('Unequal lengths for sum');
         return;
     }
     const out = new Array(arr1.length);
@@ -518,7 +512,8 @@ function vsum(arr1, arr2) {
  * @param {number[]} arr
  * @returns {number[]}
  */
-function softmax(arr) {
+function softmax(arr)
+{
     if (arr.length !== 10) {
         console.error(`Output of network size ${arr.length}, not 10!`);
         return;
@@ -538,10 +533,11 @@ function softmax(arr) {
  * @param {number} cols2
  * @returns {number[]}
  */
-function matrixDot(matrix1, matrix2, rows1, cols1, rows2, cols2) {
+function matrixDot(matrix1, matrix2, rows1, cols1, rows2, cols2)
+{
     // Check if the matrices can be multiplied
     if (cols1 !== rows2) {
-        console.error("Invalid matrix dimensions for dot product");
+        console.error('Invalid matrix dimensions for dot product');
         return null;
     }
 
@@ -565,12 +561,14 @@ function matrixDot(matrix1, matrix2, rows1, cols1, rows2, cols2) {
  * @param {number} x
  * @returns {number}
  */
-function relu(x) {
+function relu(x)
+{
     if (x < 0) return 0;
     return x;
 }
 
-/** Conv2d, stride 1, no padding, 3x3 kernel
+/**
+ * Conv2d, stride 1, no padding, 3x3 kernel
  * @param {number} nInChan
  * @param {number} nOutChan
  * @param {number[]} inputData
@@ -588,13 +586,14 @@ function conv2d(
     inputWidth,
     kernel,
     bias,
-) {
+)
+{
     if (inputData.length !== inputHeight * inputWidth * nInChan) {
-        console.error("Invalid input size");
+        console.error('Invalid input size');
         return;
     }
     if (kernel.length !== 3 * 3 * nInChan * nOutChan) {
-        console.error("Invalid kernel size");
+        console.error('Invalid kernel size');
         return;
     }
 
@@ -615,27 +614,20 @@ function conv2d(
                 for (let inChan = 0; inChan < nInChan; inChan++) {
                     for (let row = 0; row < 3; row++) {
                         for (let col = 0; col < 3; col++) {
-                            const inI =
-                                inChan * (inputHeight * inputWidth) +
-                                (i + row) * inputWidth +
-                                (j + col);
+                            const inI = inChan * (inputHeight * inputWidth) +
+                                (i + row) * inputWidth + (j + col);
 
-                            const kI =
-                                outChan * (nInChan * 3 * 3) +
-                                inChan * (3 * 3) +
-                                row * 3 +
-                                col;
+                            const kI = outChan * (nInChan * 3 * 3) +
+                                inChan * (3 * 3) + row * 3 + col;
                             sum += inputData[inI] * kernel[kI];
                         }
                     }
                 }
                 sum += bias[outChan];
-                // const idx = i * outputWidth * nOutChan + j * nOutChan + outChan;
-                // add bias to sum and put in output
-                const outI =
-                    outChan * (outputHeight * outputWidth) +
-                    i * outputWidth +
-                    j;
+                // const idx = i * outputWidth * nOutChan + j * nOutChan +
+                // outChan; add bias to sum and put in output
+                const outI = outChan * (outputHeight * outputWidth) +
+                    i * outputWidth + j;
                 output[outI] = sum;
                 // return;
             }
@@ -650,9 +642,10 @@ function conv2d(
  * @param {number} inputWidth
  * @returns {number[]}
  */
-function maxPool2d(nInChannels, inputData, inputHeight, inputWidth) {
+function maxPool2d(nInChannels, inputData, inputHeight, inputWidth)
+{
     if (inputData.length !== inputHeight * inputWidth * nInChannels) {
-        console.error("maxpool2d: invalid input height/width");
+        console.error('maxpool2d: invalid input height/width');
         return;
     }
     // input shape: (26,26,32)
@@ -674,8 +667,7 @@ function maxPool2d(nInChannels, inputData, inputHeight, inputWidth) {
                 let m = 0;
                 for (let row = 0; row < poolSize; row++) {
                     for (let col = 0; col < poolSize; col++) {
-                        const ind =
-                            chan * (inputHeight * inputWidth) +
+                        const ind = chan * (inputHeight * inputWidth) +
                             (i * stride + row) * inputWidth +
                             (j * stride + col);
                         m = Math.max(m, inputData[ind]);

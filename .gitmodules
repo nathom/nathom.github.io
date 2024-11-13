@@ -13,3 +13,6 @@
 [submodule "gruvbox2"]
 	path = themes/hugo-theme-gruvbox
 	url = https://github.com/nathom/hugo-theme-gruvbox/
+[submodule "themes/typo"]
+	path = themes/typo
+	url = https://github.com/tomfran/typo.git

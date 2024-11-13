@@ -1,208 +1,79 @@
-baseURL = "www.nathom.dev"
-relativeURLs = true
+baseURL = 'www.nathom.dev'
 languageCode = 'en-us'
 title = 'Thinkings'
-theme = 'hugo-theme-gruvbox'
-timeout = "180s"
-copyright = "© 2023-2024 Nathaniel Thomas"
-enableGitInfo = true
+theme = 'typo'
 
-[markup]
-[markup.goldmark]
-[markup.goldmark.renderer]
-# This setting allows inlining <script> and <style> tags in markdown, 
-# which is useful and required to use Prism plugins, but may be dangerous 
-# if the content isn't trustworthy.
-unsafe = true
+[taxonomies]
+tag = 'tags'
 
-[imaging]
-# JPEG and WebP image processing quality, defaults to 75%
-quality = 75
+# Google analytics code
+googleAnalytics = "G-xxxxxxxxx"
 
 [params]
-defaultTheme = "dark"
-# gray red green yellow blue purple aqua orange, defaults to blue
-themeColor = "blue"
-# soft medium hard, defaults to medium
-themeContrast = "medium"
-author = "Nathan Thomas"
-subtitle = "A blog"
-description = "A free space"
-comments = true
-mainSections = ['blog']
-searchableSections = ['blog', 'projects']
+# Meta description
+description = "Another tech blog"
 
-[params.Giscus]
-repo = "nathom/thinkings_comments"
-repo_id = "R_kgDOKDmHRQ"
-category = "General"
-category_id = "DIC_kwDOKDmHRc4CYXMZ"
-reactions_enabled = "1"
-input_position = "bottom"
-theme = "noborder_dark"
+# Appearance settings
+theme = 'auto'
+colorPalette = 'default'
+hideHeader = false
 
+# Intro on main page, content is markdown
+homeIntroTitle = 'Hi!'
+homeIntroContent = """
+I am an Italian Software Engineer with a strong foundation in computer science and a passion for solving complex problems.
+I am interested in a range of topics, including algorithms, distributed systems, databases, and information retrieval.
+"""
 
-[params.logo]
-text = "thinkings"
+# Collection to display on home
+homeCollectionTitle = 'Posts'
+homeCollection = 'blog'
+
+# Lists parameters
+paginationSize = 100
+listSummaries = false
+listDateFormat = '2 Jan 2006'
+
+# Breadcrumbs
+breadcrumbs = false
+
+# Social icons
+[[params.social]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/nathom-dev"
+
+# [[params.social]]
+# name = "medium"
+# url = "https://medium.com/@user"
+
+[[params.social]]
+name = "github"
+url = "https://github.com/nathom"
+
+# Main menu pages
+[[params.menu]]
+name = "home"
 url = "/"
 
-[params.prism]
-languages = [
-  "markup",
-  "c",
-  "rust",
-  "python",
-  "haskell",
-  "css",
-  "clike",
-  "javascript",
-  "bash",
-  "diff",
-  "toml",
-  "armasm",
-  "lua",
-  "applescript",
-  "markdown",
-]
-plugins = [
-  "normalize-whitespace",
-  "toolbar",
-  "copy-to-clipboard",
-  "line-numbers",
-  "command-line",
-  "diff-highlight",
-]
-
-# By default, the theme creates resized versions of images ranging from 300 to
-# 700 pixels wide in increments of 200 pixels
-[params.imageResize]
-min = 300
-max = 1500
-increment = 100
-
-[params.tagCloud]
-enable = false
-minFontSizeRem = 0.8
-maxFontSizeRem = 2.0
-
-# Social share links for posts:
-#   - iconSuite: "simple-icon" or "tabler-icon"
-#   - iconName: name of the icon from the "iconSuite"
-#   - {url} placeholder for post .Permalink
-#   - {title} placeholder for post .Title
-# See  https://github.com/bradvin/social-share-urls for more format strings
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "facebook"
-formatString = "https://www.facebook.com/sharer.php?u={url}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "reddit"
-formatString = "https://reddit.com/submit?url={url}&title={title}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "twitter"
-formatString = "https://twitter.com/intent/tweet?url={url}&text={title}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "linkedin"
-formatString = "https://www.linkedin.com/sharing/share-offsite/?url={url}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "whatsapp"
-formatString = "whatsapp://send/?text={title}%20{url}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "tumblr"
-formatString = "https://www.tumblr.com/widgets/share/tool?canonicalUrl={url}&title={title}&caption={title}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "pinterest"
-formatString = "http://pinterest.com/pin/create/button/?url={url}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "ycombinator"
-formatString = "https://news.ycombinator.com/submitlink?u={url}&t={title}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "vk"
-formatString = "http://vk.com/share.php?url={url}&title={title}&comment={title}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "xing"
-formatString = "https://www.xing.com/spi/shares/new?url={url}"
-[[params.socialShare]]
-iconSuite = "simple-icon"
-iconName = "telegram"
-formatString = "https://telegram.me/share/url?url={url}&text={title}"
-[[params.socialShare]]
-iconSuite = "tabler-icon"
-iconName = "mail"
-formatString = "mailto:?subject={title}&body={url}"
-
-[menu]
-[[menu.main]]
-identifier = "blog"
-name = "Blog"
+[[params.menu]]
+name = "posts"
 url = "/blog"
-weight = 10
 
-[[menu.main]]
-identifier = "projects"
-name = "Projects"
-url = "/projects"
-weights = 30
+[[params.menu]]
+name = "about"
+url = "/about"
 
+# Syntax highligth on code blocks
+[markup]
+[markup.highlight]
+style = 'gruvbox'
 
-[languages]
-[languages.en]
-languageName = "English"
-weight = 10
-[languages.en.params.jsonResume]
-present = "present"
-
-[build]
-# The theme enables writeStats which is required for PurgeCSS
-_merge = "deep"
-
-# This hopefully will be simpler in the future.
-# See: https://github.com/schnerring/hugo-theme-gruvbox/issues/16
-[module]
-[[module.imports]]
-path = "github.com/schnerring/hugo-mod-json-resume"
-[[module.imports.mounts]]
-source = "data"
-target = "data"
-[[module.imports.mounts]]
-source = "layouts"
-target = "layouts"
-[[module.imports.mounts]]
-source = "assets/css/json-resume.css"
-target = "assets/css/critical/44-json-resume.css"
-[[module.mounts]]
-source = "node_modules/simple-icons/icons"
-target = "assets/simple-icons"
-[[module.mounts]]
-source = "assets"
-target = "assets"
-[[module.mounts]]
-source = "layouts"
-target = "layouts"
-[[module.mounts]]
-source = "static"
-target = "static"
-[[module.mounts]]
-source = "node_modules/prismjs"
-target = "assets/prismjs"
-[[module.mounts]]
-source = "node_modules/prism-themes/themes"
-target = "assets/prism-themes"
-[[module.mounts]]
-source = "node_modules/typeface-fira-code/files"
-target = "static/fonts"
-[[module.mounts]]
-source = "node_modules/typeface-roboto-slab/files"
-target = "static/fonts"
-[[module.mounts]]
-source = "node_modules/@tabler/icons/icons"
-target = "assets/tabler-icons"
+# Giscus comments
+[params.giscus]
+enable = false
+repo = "user/repo"
+repoid = "repoId"
+category = "General"
+categoryid = "categoryId"
+mapping = "pathname"
+theme = "preferred_color_scheme"
