@@ -2,7 +2,7 @@
 title: "Not-so-casual Performance Optimization in Python"
 date: 2023-08-01T10:56:08-07:00
 draft: false
-katex: true
+math: true
 toc: true
 comments: true
 ---

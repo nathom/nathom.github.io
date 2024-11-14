@@ -2,7 +2,7 @@
 title: "Machine Learning Fundamentals 2.5: Generic behavior in C with macros"
 date: 2023-10-02T19:30:41-07:00
 draft: false
-katex: true
+math: true
 comments: true
 ---
 

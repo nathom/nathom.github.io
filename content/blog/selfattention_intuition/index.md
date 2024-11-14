@@ -2,7 +2,7 @@
 title: The Mechanics of Causal Self Attention 
 date: 2024-11-13T14:51:11-08:00
 draft: false
-katex: true
+math: true
 comments: true
 toc: true
 ---
@@ -175,15 +175,12 @@ $$
 \\end{aligned}
 $$
 
-We see that there is now an extra head dimension on the projection matrices
-
 $$
 \\text{head}\_h = \\text{SelfAttention}(\\mathbf{Q}\_h, \\mathbf{K}\_h, \\mathbf{V}\_h) = \\text{softmax}\\left( \\text{mask} \\left( \\frac{\\mathbf{Q}\_h \\mathbf{K}\_h^T}{\\sqrt{d\_k}} \\right) \\right) \\mathbf{V}\_h
 $$
 
 $$
 \\begin{aligned}
-\\text{MultiHead}(\\mathbf{Q}, \\mathbf{K}, \\mathbf{V}) &= \\text{Concat}(\\text{head}\_1, \\text{head}\_2, \\ldots, \\text{head}\_H) \\mathbf{W}^O \\\\
-\\mathbf{W}^O &\\in \\mathbb{R}^{H \\cdot d\_v \\times d\_{\\text{model}}}
+\\text{MultiHead}(\\mathbf{Q}, \\mathbf{K}, \\mathbf{V}) &= \\text{Concat}(\\text{head}\_1, \\text{head}\_2, \\ldots, \\text{head}\_H)
 \\end{aligned}
 $$

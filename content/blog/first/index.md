@@ -1,7 +1,7 @@
 ---
 title: "The Basel Problem"
 date: 2023-07-28T22:21:54-07:00
-draft: false
+draft: true
 math: true
 katex: true
 ---

@@ -1,17 +1,24 @@
 baseURL = 'www.nathom.dev'
 languageCode = 'en-us'
 title = 'Thinkings'
+
+
 theme = 'typo'
+
+[services]
+[services.googleAnalytics]
+id = "G-3HL1JLWX6K"
 
 [taxonomies]
 tag = 'tags'
 
 # Google analytics code
-googleAnalytics = "G-xxxxxxxxx"
+# googleAnalytics = "G-3HL1JLWX6K"
 
 [params]
 # Meta description
 description = "Another tech blog"
+footerContent = "© Nathaniel Thomas"
 
 # Appearance settings
 theme = 'auto'
@@ -19,11 +26,8 @@ colorPalette = 'default'
 hideHeader = false
 
 # Intro on main page, content is markdown
-homeIntroTitle = 'Hi!'
-homeIntroContent = """
-I am an Italian Software Engineer with a strong foundation in computer science and a passion for solving complex problems.
-I am interested in a range of topics, including algorithms, distributed systems, databases, and information retrieval.
-"""
+homeIntroTitle = 'Hello'
+homeIntroContent = """I'm a student at UCSD interested in Machine Learning and Systems. I write articles I think would have found useful. I also like building [interactive ML demos](blog/mnist)."""
 
 # Collection to display on home
 homeCollectionTitle = 'Posts'

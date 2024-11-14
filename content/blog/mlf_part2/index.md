@@ -4,7 +4,7 @@ date: 2023-09-20T10:44:52-07:00
 draft: false
 toc: true
 comments: true
-katex: true
+math: true
 socialShare: true
 ---
 
@@ -15,18 +15,7 @@ Welcome to Part 2 / N of my Machine Learning Fundamentals in C series! If you ha
 
 ## Beyond one variable
 
-Our first machine learning model, the Univariate Linear Regression Model, was *technically* machine learning, but if we're being honest with ourselves, it's not very impressive. 
-
-In fact, our whole gradient descent algorithm wasn't even necessary, since there is a closed form solution for the optimal parameters $w$ and $b$:
-
-$$
-w = \frac{m(\sum(xy) - \sum x \sum y)}{m(\sum(x^2)) - (\sum x)^2}
-$$
-$$
-b = \frac{\sum y - w \sum x}{n}
-$$
-
-Then what was the point of going through all that trouble? To set the foundation for more complicated models, like the *multivariable* linear model, which we'll be looking at today. This doesn't have a stable closed form solution for the optimal parameters, so gradient descent is our only option.
+Our first machine learning model, the Univariate Linear Regression Model, was *technically* machine learning, but if we're being honest with ourselves, it's not very impressive. Then what was the point of going through all that trouble? To set the foundation for more complicated models, like the *multivariable* linear model, which we'll be looking at today.
 
 ## The Multivariable Linear Model
 
