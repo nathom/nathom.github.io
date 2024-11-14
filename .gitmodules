@@ -10,9 +10,6 @@
 [submodule "assets/js/--force"]
 	path = assets/js/--force
 	url = https://github.com/nathom/solve2048.git
-[submodule "gruvbox2"]
-	path = themes/hugo-theme-gruvbox
-	url = https://github.com/nathom/hugo-theme-gruvbox/
 [submodule "themes/typo"]
 	path = themes/typo
 	url = https://github.com/tomfran/typo.git
