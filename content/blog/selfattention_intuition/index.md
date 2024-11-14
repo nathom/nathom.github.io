@@ -113,7 +113,7 @@ S\_{L,1} & S\_{L,2} & S\_{L,3} & \\cdots & S\_{L,L}
 S\_{1,1} \\mathbf{V}\_1 \\\\
 S\_{2,1} \\mathbf{V}\_1 + S\_{2,2} \\mathbf{V}\_2 \\\\
 S\_{3,1} \\mathbf{V}\_1 + S\_{3,2} \\mathbf{V}\_2 + S\_{3,3} \\mathbf{V}\_3 \\\\
-\\hspace{3.cm} \\vdots \\\\
+\\hspace{2.4cm} \\vdots \\\\
 S\_{L,1} \\mathbf{V}\_1 + S\_{L,2} \\mathbf{V}\_2 + \\cdots + S\_{L,L} \\mathbf{V}\_L \\\\
 \\end{array}
 \\end{bmatrix}

@@ -1,6 +1,6 @@
 baseURL = 'www.nathom.dev'
 languageCode = 'en-us'
-title = 'Thinkings'
+title = 'Nathaniel Thomas'
 
 
 theme = 'typo'
@@ -26,8 +26,8 @@ colorPalette = 'default'
 hideHeader = false
 
 # Intro on main page, content is markdown
-homeIntroTitle = 'Hello'
-homeIntroContent = """I'm a student at UCSD interested in Machine Learning and Systems. I write articles I think I would have found useful. I also like building [interactive ML demos](blog/mnist)."""
+homeIntroTitle = ''
+homeIntroContent = """[I'm a grad student](about) at UCSD interested in Machine Learning and Systems. I write articles I think I would have found useful. I also like building [interactive ML demos](blog/mnist)."""
 
 # Collection to display on home
 homeCollectionTitle = 'Posts'
