@@ -128,8 +128,9 @@ Hopefully you found this helpful!
 
 ### Why Scale by $\\sqrt{d}$?
 
+We do this to keep the variance from exploding as $d$ increases.
 
-Assume that $\\mathbf{q}\_i, \\mathbf{k}\_i \\sim \\mathcal{N}(\\mu = 0, \\sigma^2 = 1)$ and i.i.d. Let's compute the mean and variance of $s = \\mathbf{q} \\cdot \\mathbf{k}$.
+Assume that $\\mathbf{q}\_i, \\mathbf{k}\_i \\sim \\mathcal{N}(\\mu = 0, \\sigma^2 = 1)$ and i.i.d. Let's compute the mean and variance of the unscaled $s = \\mathbf{q} \\cdot \\mathbf{k}$.
 
 The mean is trivially zero:
 
@@ -160,7 +161,7 @@ since $\\mathbb{E}[\\mathbf{q}\_i^2] = \\mathbb{E}[\\mathbf{k}\_i^2] = \\sigma^2
 So if we scale by $1/\\sqrt{d}$, our new variance is 
 
 $$
-\\text{Var}(\\frac{s}{\\sqrt{d}}) =\\text{Var}(\\frac{\\mathbf{q} \\cdot \\mathbf{k}}{\\sqrt{d}}) = \\frac{1}{d} \\text{Var}(\\mathbf{q} \\cdot \\mathbf{k}) = 1
+\\text{Var}(\\frac{s}{\\sqrt{d}}) = \\frac{1}{d} \\text{Var}(s) = 1
 $$
 
 as desired.
